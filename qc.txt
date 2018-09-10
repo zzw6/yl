@@ -54,6 +54,7 @@ $/ecology_8.000/sql/SQLServer/meeting/Meeting_Update.sql(V1)
 $/ecology_8.000/sql/Oracle/meeting/MEETING_INSERT.sql(V1)
 $/ecology_8.000/sql/Oracle/meeting/MEETING_UPDATE.sql(V1)
  
+ /
  
 $/ecology_8.000/meeting/Maint/MutilMeetingRoomBrowserAjax.jsp(V2)
 $/ecology_8.000/meeting/Maint/MutilMeetingRoomBrowserChld.jsp(V2)
