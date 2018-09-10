@@ -1,14 +1,14 @@
 $/ecology_8.000/data.jsp(V190)
-$/ecology_8.000/meeting/data/AjaxMeetingOperation.jsp(V22)
-$/ecology_8.000/meeting/data/ChkMeetingRoom.jsp(V3)
+$/ecology_8.000/meeting/data/AjaxMeetingOperation.jsp(V22)  //chkRoom 检验 后续修改
+$/ecology_8.000/meeting/data/ChkMeetingRoom.jsp(V3)  // 和上面一样的逻辑 后续处理
 $/ecology_8.000/meeting/data/EditMeeting.jsp(V37)
 $/ecology_8.000/meeting/data/ViewMeeting.jsp(V34)
 $/ecology_8.000/meeting/data/NewMeeting.jsp(V38)
 $/ecology_8.000/meeting/data/MeetingOperation.jsp(V44)
 $/ecology_8.000/meeting/defined/wfAction.jsp(V6)
-$/ecology_8.000/meeting/Maint/MutilMeetingRoomBrowser.jsp(V1)
-$/ecology_8.000/meeting/Maint/MutilMeetingRoomBrowserAjax.jsp(V1)
-$/ecology_8.000/meeting/Maint/MutilMeetingRoomBrowserChld.jsp(V1)
+$/ecology_8.000/meeting/Maint/MutilMeetingRoomBrowser.jsp(V1)  //已更新
+$/ecology_8.000/meeting/Maint/MutilMeetingRoomBrowserAjax.jsp(V1)  //已更新
+$/ecology_8.000/meeting/Maint/MutilMeetingRoomBrowserChld.jsp(V1)  //已更新
 $/ecology_8.000/meeting/report/GetRoomMeetingList.jsp(V22)
 $/ecology_8.000/meeting/template/MeetingSubmitRequestJs.jsp(V1)
 $/ecology_8.000/meeting/template/MeetingSubmitRequestJs4Mobile.jsp(V1)
@@ -22,6 +22,10 @@ $/ecology_8.000/src/weaver/meeting/MeetingUtil.java(V13)
 $/ecology_8.000/src/weaver/meeting/search/SearchComInfo.java(V4)
 $/ecology_8.000/src/weaver/mobile/webservices/workflow/WorkflowServiceUtil.java(V145)
 $/ecology_8.000/src/weaver/splitepage/transform/SptmForMeeting.java(V6)
+
+
+//xz 0206
+
 $/ecology_8.000/workflow/request/AddBillMeeting.jsp(V56)
 $/ecology_8.000/workflow/request/ManageBillMeeting.jsp(V52)
 $/ecology_8.000/workflow/request/WorkflowManageSign1.jsp(V84)
@@ -37,12 +41,12 @@ $/ecology_8.000/workflow/workflow/addoperatorgroup_inner.jsp(V20)
 
 使用QC185697脚本
   
-$/ecology_8.000/sql/for Oracle/sql201605270601.sql(V1)
-$/ecology_8.000/sql/for Oracle/sql201605260303.sql(V1)
-$/ecology_8.000/sql/for Oracle/sql201605170303.sql(V1)
-$/ecology_8.000/sql/for Oracle/sql201605130603.sql(V1)
-$/ecology_8.000/sql/for Oracle/sql201605130503.sql(V1)
-$/ecology_8.000/sql/for Oracle/sql201604210401.sql(V1)
+$/ecology_8.000/sql/for Oracle/sql201605270601.sql(V1)  //标签
+$/ecology_8.000/sql/for Oracle/sql201605260303.sql(V1)  //修改billfield
+$/ecology_8.000/sql/for Oracle/sql201605170303.sql(V1)  //升级之前备份meeting表 meetingroom表
+$/ecology_8.000/sql/for Oracle/sql201605130603.sql(V1)  //MEETING_UPDATE==MEETING_UPDATE.sql
+$/ecology_8.000/sql/for Oracle/sql201605130503.sql(V1)  //MEETING_INSERT== MEETING_INSERT.sql
+$/ecology_8.000/sql/for Oracle/sql201604210401.sql(V1)  //标签
 
 存储过程修改备案
 $/ecology_8.000/sql/SQLServer/meeting/Meeting_Insert.sql(V1)
