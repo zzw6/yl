@@ -1,14 +1,19 @@
 $/ecology_8.000/data.jsp(V190)
 $/ecology_8.000/meeting/data/AjaxMeetingOperation.jsp(V22)  //chkRoom 检验 后续修改
 $/ecology_8.000/meeting/data/ChkMeetingRoom.jsp(V3)  // 和上面一样的逻辑 后续处理
-$/ecology_8.000/meeting/data/EditMeeting.jsp(V37)
-$/ecology_8.000/meeting/data/ViewMeeting.jsp(V34)
-$/ecology_8.000/meeting/data/NewMeeting.jsp(V38)
-$/ecology_8.000/meeting/data/MeetingOperation.jsp(V44)
-$/ecology_8.000/meeting/defined/wfAction.jsp(V6)
+$/ecology_8.000/meeting/data/EditMeeting.jsp(V37) //已处理
+$/ecology_8.000/meeting/data/ViewMeeting.jsp(V34) //提醒无需处理
+$/ecology_8.000/meeting/data/NewMeeting.jsp(V38)  // 已处理 逻辑多
+$/ecology_8.000/meeting/data/MeetingOperation.jsp(V44)  //客户做了开发 后续再看
+$/ecology_8.000/meeting/defined/wfAction.jsp(V6)  //	RecordSet1.execute("update workflow_base set custompage='/meeting/template/MeetingSubmitRequestJs.jsp',custompage4Emoble='/meeting/template/MeetingSubmitRequestJs4Mobile.jsp' where id="+id);
+
+
+
 $/ecology_8.000/meeting/Maint/MutilMeetingRoomBrowser.jsp(V1)  //已更新
 $/ecology_8.000/meeting/Maint/MutilMeetingRoomBrowserAjax.jsp(V1)  //已更新
 $/ecology_8.000/meeting/Maint/MutilMeetingRoomBrowserChld.jsp(V1)  //已更新
+
+
 $/ecology_8.000/meeting/report/GetRoomMeetingList.jsp(V22)
 $/ecology_8.000/meeting/template/MeetingSubmitRequestJs.jsp(V1)
 $/ecology_8.000/meeting/template/MeetingSubmitRequestJs4Mobile.jsp(V1)
@@ -20,6 +25,7 @@ $/ecology_8.000/src/weaver/meeting/Maint/MeetingRoomReport.java(V14)
 $/ecology_8.000/src/weaver/meeting/Maint/MeetingTransMethod.java(V31)
 $/ecology_8.000/src/weaver/meeting/MeetingUtil.java(V13)
 $/ecology_8.000/src/weaver/meeting/search/SearchComInfo.java(V4)
+
 $/ecology_8.000/src/weaver/mobile/webservices/workflow/WorkflowServiceUtil.java(V145)
 $/ecology_8.000/src/weaver/splitepage/transform/SptmForMeeting.java(V6)
 
