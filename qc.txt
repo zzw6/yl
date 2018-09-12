@@ -1,6 +1,6 @@
 $/ecology_8.000/data.jsp(V190)
 $/ecology_8.000/meeting/data/AjaxMeetingOperation.jsp(V22)  //chkRoom 检验 后续修改
-$/ecology_8.000/meeting/data/ChkMeetingRoom.jsp(V3)  // 和上面一样的逻辑 后续处理
+$/ecology_8.000/meeting/data/ChkMeetingRoom.jsp(V3),v4  // 和上面一样的逻辑 后续处理
 $/ecology_8.000/meeting/data/EditMeeting.jsp(V37) //已处理
 $/ecology_8.000/meeting/data/ViewMeeting.jsp(V34) //提醒无需处理
 $/ecology_8.000/meeting/data/NewMeeting.jsp(V38)  // 已处理 逻辑多
@@ -15,9 +15,11 @@ $/ecology_8.000/meeting/Maint/MutilMeetingRoomBrowserChld.jsp(V1)  //已更新
 
 
 $/ecology_8.000/meeting/report/GetRoomMeetingList.jsp(V22)
+
+
 $/ecology_8.000/meeting/template/MeetingSubmitRequestJs.jsp(V1)
 $/ecology_8.000/meeting/template/MeetingSubmitRequestJs4Mobile.jsp(V1)
-$/ecology_8.000/mobile/plugin/1/js/view/1_wev8.js(V147)
+$/ecology_8.000/mobile/plugin/1/js/view/1_wev8.js(V147) //提醒
 $/ecology_8.000/src/weaver/meeting/action/WFMeetingAction.java(V9)
 $/ecology_8.000/src/weaver/meeting/Maint/MeetingInterval.java(V41)
 $/ecology_8.000/src/weaver/meeting/Maint/MeetingRoomComInfo.java(V4)
@@ -59,11 +61,19 @@ $/ecology_8.000/sql/SQLServer/meeting/Meeting_Insert.sql(V1)
 $/ecology_8.000/sql/SQLServer/meeting/Meeting_Update.sql(V1)
 $/ecology_8.000/sql/Oracle/meeting/MEETING_INSERT.sql(V1)
 $/ecology_8.000/sql/Oracle/meeting/MEETING_UPDATE.sql(V1)
- 
+
+ $/ecology_8.000/sql/for Oracle/sql201605170303.sql(V2) //修改错误存储过程
+
  /
+
+ 【1610建模回归测试】自定义浏览框单选页面，查询条件中，自定义多选浏览框，选择多个值后，执行搜索，会合并成一个值，只有一个删除图标，附图。  注意一下
  
 $/ecology_8.000/meeting/Maint/MutilMeetingRoomBrowserAjax.jsp(V2)
 $/ecology_8.000/meeting/Maint/MutilMeetingRoomBrowserChld.jsp(V2)
+
+
+$/ecology_8.000/meeting/data/ChkMeetingRoom.jsp(V4)
+
 
 ________________________________________
 刘鸣枭 <lmx>, 2016/11/24: 
@@ -102,8 +112,6 @@ ________________________________________
 
 解决问题8
 $/ecology_8.000/src/weaver/mobile/webservices/workflow/WorkflowServiceUtil.java(V146)
-修复存储过程错误
-$/ecology_8.000/sql/for Oracle/sql201605170303.sql(V2)
 
 ________________________________________
 刘鸣枭 <lmx>, 2016/11/25: 
