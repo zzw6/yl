@@ -21,14 +21,24 @@ $/ecology_8.000/meeting/template/MeetingSubmitRequestJs.jsp(V1)
 $/ecology_8.000/meeting/template/MeetingSubmitRequestJs4Mobile.jsp(V1)
 $/ecology_8.000/mobile/plugin/1/js/view/1_wev8.js(V147) //提醒
 $/ecology_8.000/src/weaver/meeting/action/WFMeetingAction.java(V9)
-$/ecology_8.000/src/weaver/meeting/Maint/MeetingInterval.java(V41)
-$/ecology_8.000/src/weaver/meeting/Maint/MeetingRoomComInfo.java(V4)
-$/ecology_8.000/src/weaver/meeting/Maint/MeetingRoomReport.java(V14)
+
+
+$/ecology_8.000/src/weaver/meeting/Maint/MeetingInterval.java(V41)  //伊利没有这一段
+
+$/ecology_8.000/src/weaver/meeting/Maint/MeetingRoomComInfo.java(V4) // 没法改 差距太大 其他用到的地方改回来吧
+
+$/ecology_8.000/src/weaver/meeting/Maint/MeetingRoomReport.java(V14)  //没有这个玩意
+
 $/ecology_8.000/src/weaver/meeting/Maint/MeetingTransMethod.java(V31)
+
 $/ecology_8.000/src/weaver/meeting/MeetingUtil.java(V13)
+
 $/ecology_8.000/src/weaver/meeting/search/SearchComInfo.java(V4)
 
+
+
 $/ecology_8.000/src/weaver/mobile/webservices/workflow/WorkflowServiceUtil.java(V145)
+
 $/ecology_8.000/src/weaver/splitepage/transform/SptmForMeeting.java(V6)
 
 
