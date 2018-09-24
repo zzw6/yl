@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1949eabc-bbdc-44c6-a53d-632c24c8c480" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ecology/sql/for Oracle/sql201605170303.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/yiliVersion.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/yiliVersion.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ecology/src/weaver/meeting/Maint/MeetingTransMethod.java" beforeDir="false" afterPath="$PROJECT_DIR$/ecology/src/weaver/meeting/Maint/MeetingTransMethod.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/qc.txt" beforeDir="false" afterPath="$PROJECT_DIR$/qc.txt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -16,47 +18,66 @@
     <session id="221953452">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.open.time.0" value="1" />
+          <entry key="project.closed" value="1" />
+          <entry key="project.open.time.0" value="2" />
           <entry key="project.open.time.11" value="1" />
-          <entry key="project.opened" value="2" />
+          <entry key="project.opened" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="java" value="1" />
+          <entry key="java" value="2" />
           <entry key="sql" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="JAVA" value="1" />
+          <entry key="JAVA" value="2" />
           <entry key="SQL" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="33" />
+          <entry key="java" value="288" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="33" />
+          <entry key="JAVA" value="288" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file pinned="false" current-in-tab="true">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$USER_HOME$/Desktop/MeetingTransMethod.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="505">
-              <caret line="522" column="41" lean-forward="true" selection-start-line="522" selection-start-column="41" selection-end-line="522" selection-end-column="41" />
+            <state relative-caret-position="222">
+              <caret line="528" selection-start-line="528" selection-end-line="528" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/ecology/src/weaver/meeting/Maint/MeetingTransMethod.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="201">
+              <caret line="510" column="23" lean-forward="true" selection-start-line="510" selection-start-column="23" selection-end-line="510" selection-end-column="23" />
+              <folding>
+                <element signature="e#41542#41543#0" expanded="true" />
+                <element signature="e#41594#41595#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>getMeetingAddress</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -65,6 +86,7 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$USER_HOME$/Desktop/MeetingTransMethod.java" />
+        <option value="$PROJECT_DIR$/ecology/src/weaver/meeting/Maint/MeetingTransMethod.java" />
       </list>
     </option>
   </component>
@@ -74,9 +96,9 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="1280" />
+    <option name="y" value="280" />
     <option name="width" value="640" />
     <option name="height" value="280" />
   </component>
@@ -85,6 +107,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -124,12 +147,41 @@
               <item name="meeting" type="462c0819:PsiDirectoryNode" />
               <item name="report" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="yiliVersion" type="b2602c69:ProjectViewProjectNode" />
+              <item name="yiliVersion" type="462c0819:PsiDirectoryNode" />
+              <item name="ecology" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="yiliVersion" type="b2602c69:ProjectViewProjectNode" />
+              <item name="yiliVersion" type="462c0819:PsiDirectoryNode" />
+              <item name="ecology" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="weaver" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="yiliVersion" type="b2602c69:ProjectViewProjectNode" />
+              <item name="yiliVersion" type="462c0819:PsiDirectoryNode" />
+              <item name="ecology" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="weaver" type="462c0819:PsiDirectoryNode" />
+              <item name="meeting" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="yiliVersion" type="b2602c69:ProjectViewProjectNode" />
+              <item name="yiliVersion" type="462c0819:PsiDirectoryNode" />
+              <item name="ecology" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="weaver" type="462c0819:PsiDirectoryNode" />
+              <item name="meeting" type="462c0819:PsiDirectoryNode" />
+              <item name="Maint" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
       <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -162,18 +214,19 @@
       <option name="presentableId" value="Default" />
       <updated>1536759017331</updated>
       <workItem from="1536759018599" duration="3102000" />
-      <workItem from="1537096380142" duration="716000" />
+      <workItem from="1537096380142" duration="3124000" />
+      <workItem from="1537801625894" duration="3400000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="3818000" />
+    <option name="totallyTimeSpent" value="9626000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="2576" height="1416" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.48911652" visible="true" weight="0.02782194" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.48911652" visible="true" weight="0.27503973" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Favorites" order="3" sideWeight="0.5108835" side_tool="true" weight="0.23359375" />
@@ -217,8 +270,19 @@
     <entry file="file://$PROJECT_DIR$/ecology/sql/for Oracle/sql201605170303.sql" />
     <entry file="file://$USER_HOME$/Desktop/MeetingTransMethod.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="505">
-          <caret line="522" column="41" lean-forward="true" selection-start-line="522" selection-start-column="41" selection-end-line="522" selection-end-column="41" />
+        <state relative-caret-position="222">
+          <caret line="528" selection-start-line="528" selection-end-line="528" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ecology/src/weaver/meeting/Maint/MeetingTransMethod.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="201">
+          <caret line="510" column="23" lean-forward="true" selection-start-line="510" selection-start-column="23" selection-end-line="510" selection-end-column="23" />
+          <folding>
+            <element signature="e#41542#41543#0" expanded="true" />
+            <element signature="e#41594#41595#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -519,17 +519,25 @@ public class MeetingTransMethod {
         int lang=Integer.parseInt(userLanguage);
         MeetingRoomComInfo meetingRoomComInfo = new MeetingRoomComInfo();
         String br = "&#13;";
-
 		String[] ids=idString.split(",");
 		String linkstr ="";
 		for (String addressid : ids) {
 			String strTitle = meetingRoomComInfo.getMeetingRoomInfoname(addressid)+br+SystemEnv.getHtmlLabelNames("780,81710",lang)+"："+meetingRoomComInfo.getMeetingRoomInfodesc(addressid)+br+SystemEnv.getHtmlLabelName(2156,lang)+"："+new ResourceComInfo().getResourcename(meetingRoomComInfo.getMeetingRoomInfohrmid(addressid))+br+SystemEnv.getHtmlLabelNames("780,1326",lang)+"："+meetingRoomComInfo.getMeetingRoomInfoequipment(addressid);
 
-			linkstr += "<span title='"+strTitle+"'>" + meetingRoomComInfo.getMeetingRoomInfoname(addressid) + "</span>" ;
+			linkstr += ",<span title='"+strTitle+"'>" + meetingRoomComInfo.getMeetingRoomInfoname(addressid) + "</span>" ;
 
 		}
 
-        
+		if(!"".equals(linkstr))
+			linkstr=linkstr.substring(1);
+
+		writeLog("linkstr"+linkstr);
+
+		if(ids.length>1){
+			return linkstr;
+		}
+
+
         return (new MeetingRoomComInfo().getMeetingRoomInfoname(idString)).equals("")?("".equals(customizeaddress.trim())?"":customizeaddress+"("+SystemEnv.getHtmlLabelName(19516,lang)+")"):linkstr;
     }
 
