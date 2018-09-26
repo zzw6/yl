@@ -1,4 +1,4 @@
-$/ecology_8.000/data.jsp(V190)
+﻿$/ecology_8.000/data.jsp(V190)
 $/ecology_8.000/meeting/data/AjaxMeetingOperation.jsp(V22)  //chkRoom 检验 后续修改
 $/ecology_8.000/meeting/data/ChkMeetingRoom.jsp(V3),v4  // 和上面一样的逻辑 后续处理
 $/ecology_8.000/meeting/data/EditMeeting.jsp(V37) //已处理
@@ -329,3 +329,10 @@ ________________________________________
 13)移动端，创建会议生成会议室二维码功能，由原来的单会议室生成逻辑改为多会议室生成逻辑；
 
 14)移动端，由会议模块生成的E-message相关提醒，涉及到会议室字段的相关代码更改
+
+
+//多会议室的时候怎么区别内部会议室和外部会议室
+
+
+
+// mobile/plugin/5/meetingOperation.jsp 选择地点浏览按钮

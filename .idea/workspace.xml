@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1949eabc-bbdc-44c6-a53d-632c24c8c480" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/yiliVersion.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/yiliVersion.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ecology/src/weaver/meeting/Maint/MeetingTransMethod.java" beforeDir="false" afterPath="$PROJECT_DIR$/ecology/src/weaver/meeting/Maint/MeetingTransMethod.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qc.txt" beforeDir="false" afterPath="$PROJECT_DIR$/qc.txt" afterDir="false" />
-    </list>
+    <list default="true" id="1949eabc-bbdc-44c6-a53d-632c24c8c480" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,7 +12,7 @@
     <session id="221953452">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="1" />
+          <entry key="project.closed" value="2" />
           <entry key="project.open.time.0" value="2" />
           <entry key="project.open.time.11" value="1" />
           <entry key="project.opened" value="3" />
