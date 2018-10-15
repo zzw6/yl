@@ -94,7 +94,7 @@ String desc = Util.null2String(request.getParameter("desc"));
 	<div style="overflow: auto;max-height:155px" id="e8QuerySearchArea">
 	<wea:layout type="4col">
 		<wea:group context='<%=SystemEnv.getHtmlLabelName(20331,user.getLanguage())%>'>
-			<wea:item><%=SystemEnv.getHtmlLabelName(31232, user.getLanguage())%></wea:item>
+			<wea:item><%="".equals(SystemEnv.getHtmlLabelName(31232, user.getLanguage()))?"名称":SystemEnv.getHtmlLabelName(31232, user.getLanguage())%></wea:item>
 						<wea:item>
 							<input type="text" class="InputStyle" id="name" name="name"
 								value="<%=name%>">
