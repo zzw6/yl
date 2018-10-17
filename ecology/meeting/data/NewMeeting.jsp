@@ -1069,9 +1069,24 @@ $(document).ready(function(){
 				msg= msg.replace(/(^\s*)|(\s*$)/g, "");
 				if(msg != "NoData"){
 					var msgArr = msg.split("$");
-					
-					$('#address').val(msgArr[0]);
-					$('#addressspan').html(msgArr[1]);
+					var value=$('#address').val();
+					if(value!==''){
+                        var split = value.split(",");
+                        for (var x of split) {
+							if(x===msgArr[0])
+							{
+							    return;
+							}
+                        }
+
+                        $('#address').val(value+","+msgArr[0]);
+                   	}else{
+                        $('#address').val(msgArr[0]);
+					}
+                    var html=' <span class="e8_showNameClass"><a href="/meeting/Maint/MeetingRoom_list.jsp?id="'+msgArr[0]+' target="_new" ' +
+                        'title="'+msgArr[1]+'">'+msgArr[1]+'</a><span id='+msgArr[0]+' class="e8_delClass">x</span></span>';
+                    $('#addressspan').html($('#addressspan').html()+" "+html);
+
 					countCost();
 				}
 			}
