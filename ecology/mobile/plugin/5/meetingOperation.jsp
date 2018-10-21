@@ -118,6 +118,7 @@
 					String endDate = Util.null2String(rs.getString("endDate"));
 					String begintime = Util.null2String(rs.getString("begintime"));
 					String endtime = Util.null2String(rs.getString("endtime"));
+					int creater=Util.getIntValue(rs.getString("creater"));//创建人
 					String isdecision = Util.null2String(rs.getString("isdecision"));//会议决议
 					int meetingstatus = Util.getIntValue(rs.getString("meetingstatus"));//会议状态
 					int meetingover = 0;//会议进行状态 0已结束 1进行中  2未开始
@@ -158,6 +159,8 @@
 					jo.put("endtime", endtime);
 					jo.put("meetingover", meetingover);
 					jo.put("userType", userType);
+					jo.put("create",rc.getLastname(creater+""));
+					jo.put("createid",creater+"");
 					ja.add(jo);
 				}
 				json.put("meetings", ja);

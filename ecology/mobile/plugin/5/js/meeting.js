@@ -396,8 +396,15 @@ function sureOutUser(){
 }
 //确定会议室选择
 function sureAddress(id,name){
-	$("#addressSpan").html(name);
-	$("#address").val(id);
+	var addressValue=$("#address").val();
+	if(addressValue===''){
+		$("#addressSpan").html(name);
+		$("#address").val(id);
+	}else{
+		$("#addressSpan").html($("#addressSpan").html()+","+name);
+		$("#address").val(addressValue+","+id);
+	}
+
 	$.closePopup();
 	popOpen = false;
 }
