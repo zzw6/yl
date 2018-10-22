@@ -27,6 +27,9 @@
 <%@ page import="weaver.conn.RecordSet"%>
 <%@ page import="weaver.general.BaseBean"%>
 <%@ page import="weaver.general.Util"%>
+<%@ page import="java.text.DateFormat" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.Date" %>
 <jsp:useBean id="BaseBean" class="weaver.general.BaseBean" scope="page" />
 
 <%! 
@@ -428,14 +431,21 @@ boolean isover = false;//会议是否结束
 //该会议的meetingstatus=2,并且结束时间不在当前时间之后或者该会议已产生会议决议，该会议即为结束
 if((enddate+":"+endtime).compareTo(CurrentDate+":"+CurrentTime)<=0 || isdecision.equals("2")) isover=true;
 
+	DateFormat df = new SimpleDateFormat("yyyy-MM-dd:hh:mm");
+	Date d1 = df.parse((enddate+":"+endtime));
+	Date d2 = df.parse(CurrentDate+":"+CurrentTime);
+	long nh = 1000 * 60 * 60;
+	long diff = d2.getTime() - d1.getTime();
+	long hours = diff / nh;
+
 //System.out.println("ismember ="+ismember);
-if((canJueyi) && (!isdecision.equals("2")) && repeatType == 0 && isover ){  
+if(((canJueyi) && (!isdecision.equals("2")) && repeatType == 0 && isover)||hours<=72){
 RCMenu += "{"+SystemEnv.getHtmlLabelName(2194,user.getLanguage())+",javascript:onShowDecision("+meetingid+"),_self} " ;
 RCMenuHeight += RCMenuHeightStep ;
 }
 
 if(MeetingShareUtil.containUser(allUser,creater) && isover){  
-RCMenu += "{"+SystemEnv.getHtmlLabelName(77,user.getLanguage())+",javascript:copyNewMeeting("+meetingid+"),_self} " ;
+RCMenu += openUserinfo"{"+SystemEnv.getHtmlLabelName(77,user.getLanguage())+",javascript:copyNewMeeting("+meetingid+"),_self} " ;
 RCMenuHeight += RCMenuHeightStep ;
 }
 
@@ -490,7 +500,7 @@ RCMenuHeight += RCMenuHeightStep ;
 			style="text-align: right; width: 400px !important">
 			<%
 			//System.out.println("ismember ="+ismember);
-			if((canJueyi) && (!isdecision.equals("2")) && repeatType == 0 && isover){  
+			if(((canJueyi) && (!isdecision.equals("2")) && repeatType == 0 && isover)||hours<=72){
 			%>
 				<input type="button" value="<%=SystemEnv.getHtmlLabelName(2194,user.getLanguage()) %>" class="e8_btn_top middle" onclick="onShowDecision('<%=meetingid%>')"/>
 			<%
