@@ -604,8 +604,9 @@ function dodeleteRow1()
 }
 
 function doSave(savemethod){
-    if(savemethod===1){
+    if(savemethod===1&&jQuery("#shareuser").val()===''){
         jQuery("#shareuser_browserbtn").click();
+        return;
     }
     if (savemethod==1) savemethod = "submit" ;
     if (savemethod==2) savemethod = "edit" ;
