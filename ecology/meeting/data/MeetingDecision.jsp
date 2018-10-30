@@ -604,6 +604,9 @@ function dodeleteRow1()
 }
 
 function doSave(savemethod){
+    if(savemethod===1){
+        jQuery("#shareuser_browserbtn").click();
+    }
     if (savemethod==1) savemethod = "submit" ;
     if (savemethod==2) savemethod = "edit" ;
     var parastr = "<%=needcheck%>" ;
