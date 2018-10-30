@@ -163,12 +163,18 @@ public class MeetingRoomComInfo extends BaseBean {
 	}
 
 	public String getMeetingRoomInfodesc(String key) {
-		int index = ids.indexOf(key);
-		
-		if (index != -1)
-			return ((String) descs.get(index));
-		else
-			return "";
+		String meetingaddr="";
+		String [] adds = key.split(",");
+		for(int i=0;i<adds.length;i++){
+			if(!"".equals(adds[i])){
+				String rooname =((String) descs.get(Util.getIntValue(adds[i])));
+				if(!"".equals(meetingaddr)){
+					meetingaddr+=",";
+				}
+				meetingaddr+=rooname;
+			}
+		}
+		return meetingaddr;
 	}
 
 	public String getMeetingRoomInfohrmid() {
