@@ -34,7 +34,7 @@ RecordSet.next();
 String meetingtype=RecordSet.getString("meetingtype");
 String meetingname=RecordSet.getString("name");
 
-String tempDesc = Util.toHtmltextarea(RecordSet.getString("desc_n"));
+String tempDesc = Util.toHtmltextarea(Util.encodeAnd(Util.spacetoHtml(RecordSet.getString("desc_n"))));
 
 String caller=RecordSet.getString("caller");
 String contacter=RecordSet.getString("contacter");
@@ -1257,11 +1257,9 @@ function submitChkMbr(){
 function submitact(){
 	var desc_n = $('#desc_n').val();
 	var tempDesc = $('#tempDesc').val();
-
-	if(desc_n.length != tempDesc.length){
+	if(desc_n != tempDesc){
 		$('#isChage').val("1");
 	}
-		
 	document.weaver.topicrows.value=rowindex;
 	document.weaver.topicAttachrows.value=attachindex;
 	document.weaver.servicerows.value=serviceindex;
@@ -1348,46 +1346,32 @@ function CheckOnShowAddress(){
 }
 //打开会议室选择框
 function onShowAddress(){
-	//var url = "/systeminfo/BrowserMain.jsp?url=/meeting/Maint/MeetingRoomBrowser.jsp";
-	//showBrwDlg(url, "", 500,570,"addressspan","address","addressChgCbk");
-	
-	var url = "/systeminfo/BrowserMain.jsp?url=/meeting/Maint/MutilMeetingRoomBrowser.jsp";
-	showBrwDlg(url, "frommeeting=1&selectedids="+$('#address').val(), 500,480,"addressspan","address","addressChgCbk");
-	$("#src_box_middle").css("height","400px");
-
+	var url = "/systeminfo/BrowserMain.jsp?url=/meeting/Maint/MeetingRoomBrowser.jsp";
+	showBrwDlg(url, "", 500,570,"addressspan","address","addressChgCbk");
 }
 //会议室回写处理
 function addressChgCbk(datas){
+	if (datas != null) {
+		closeBrwDlg();
+		if (wuiUtil.getJsonValueByIndex(datas, 0) != "" && wuiUtil.getJsonValueByIndex(datas, 0) != "0") {
 
-		if(datas){
-		if (datas!=""){
-             var ids = datas.id;
-             var names = datas.name;
-             arrid=ids.split(",");
-             arrname=names.split(",");
-             var html="";
-             for(var i=0;i<arrid.length;i++){
-               html += "<a href='/meeting/Maint/MeetingRoom_list.jsp?id="+arrid[i]+"' target='_new' >"+arrname[i]+"</A>";
-             }
-             html = html.substr(0,html.length-1);
-             $("#addressspan").html(html);
-			 weaver.address.value = ids;
-			 $("#customizeAddressspan").html("");
-		}else{
-			 $("#addressspan").html("<IMG src='/images/BacoError.gif' align=absMiddle>");
-			 weaver.address.value="";
-			 $("#customizeAddressspan").html("<IMG src='/images/BacoError.gif' align=absMiddle>");
+			var resourceids = wuiUtil.getJsonValueByIndex(datas, 0);
+			var resourcename = wuiUtil.getJsonValueByIndex(datas, 1);
+			
+			jQuery("#addressspan").html(resourcename);
+			jQuery("#address").val(resourceids);
+		} else {
+ 			jQuery("#addressspan").html("");
+			jQuery("#address").val("");
 		}
-		
-		 _writeBackData("address",2,{id:jQuery("#address").val(),name:jQuery("#addressspan").html()},{
+		_writeBackData("address",2,{id:jQuery("#address").val(),name:"<a href='/meeting/Maint/MeetingRoom_list.jsp?id="+jQuery("#address").val()+"' target='_new' > "+jQuery("#addressspan").html()+"</a>"},{
 			hasInput:true,
 			replace:true,
-			//isSingle:true,
+			isSingle:true,
 			isedit:true
 		});
 	}
 	addressCallBack();
-
 }
 //会议室选择和填写后方法处理
 function addressCallBack(){

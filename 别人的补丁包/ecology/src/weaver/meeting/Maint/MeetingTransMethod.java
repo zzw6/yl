@@ -512,41 +512,19 @@ public class MeetingTransMethod {
      * @return
      * @throws Exception
      */
-    public String getMeetingAddress(String idString,String others) throws Exception{
+    public String getMeetingAddress(String addressid,String others) throws Exception{
         List parameterList = Util.TokenizerString(others, "+");
         String userLanguage=parameterList.get(0).toString();
         String customizeaddress=parameterList.get(1).toString();
         int lang=Integer.parseInt(userLanguage);
         MeetingRoomComInfo meetingRoomComInfo = new MeetingRoomComInfo();
         String br = "&#13;";
-		String[] ids=idString.split(",");
-		String linkstr ="";
-		for (String addressid : ids) {
-			String strTitle = getMeetingRoomInfoname(addressid)+br+SystemEnv.getHtmlLabelNames("780,81710",lang)+"："+getMeetingRoomInfoname(addressid)+br+SystemEnv.getHtmlLabelName(2156,lang)+"："+new ResourceComInfo().getResourcename(meetingRoomComInfo.getMeetingRoomInfohrmid(addressid))+br+SystemEnv.getHtmlLabelNames("780,1326",lang)+"："+meetingRoomComInfo.getMeetingRoomInfoequipment(addressid);
-			linkstr += ",<span title='"+strTitle+"'>" + getMeetingRoomInfoname(addressid) + "</span>" ;
-		}
-
-		if(!"".equals(linkstr))
-			linkstr=linkstr.substring(1);
-
-		writeLog("linkstr"+linkstr);
-
-		if(ids.length>1){
-			return linkstr;
-		}
-
-        return (getMeetingRoomInfoname(idString)).equals("")?("".equals(customizeaddress.trim())?"":customizeaddress+"("+SystemEnv.getHtmlLabelName(19516,lang)+")"):linkstr;
+        String strTitle = meetingRoomComInfo.getMeetingRoomInfoname(addressid)+br+SystemEnv.getHtmlLabelNames("780,81710",lang)+"："+meetingRoomComInfo.getMeetingRoomInfodesc(addressid)+br+SystemEnv.getHtmlLabelName(2156,lang)+"："+new ResourceComInfo().getResourcename(meetingRoomComInfo.getMeetingRoomInfohrmid(addressid))+br+SystemEnv.getHtmlLabelNames("780,1326",lang)+"："+meetingRoomComInfo.getMeetingRoomInfoequipment(addressid);
+        String linkstr = "<span title='"+strTitle+"'>" + meetingRoomComInfo.getMeetingRoomInfoname(addressid) + "</span>" ;
+        
+        
+        return (new MeetingRoomComInfo().getMeetingRoomInfoname(addressid)).equals("")?("".equals(customizeaddress.trim())?"":customizeaddress+"("+SystemEnv.getHtmlLabelName(19516,lang)+")"):linkstr;
     }
-
-    public String getMeetingRoomInfoname(String id){
-    	RecordSet rs=new RecordSet();
-    	rs.executeQuery("select name from meetingroom where id=?",id);
-    	if(rs.next()){
-    		return rs.getString(1);
-		}
-
-		return "";
-	}
 
     /**
      * 获得会议室使用占比

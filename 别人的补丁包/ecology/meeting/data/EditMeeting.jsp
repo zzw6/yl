@@ -18,11 +18,13 @@
 <jsp:useBean id="ManageDetachComInfo" class="weaver.hrm.moduledetach.ManageDetachComInfo" scope="page" /> 
 <jsp:useBean id="MeetingFieldComInfo" class="weaver.meeting.defined.MeetingFieldComInfo" scope="page"/>
 <jsp:useBean id="MeetingFieldGroupComInfo" class="weaver.meeting.defined.MeetingFieldGroupComInfo" scope="page"/>
-<jsp:useBean id="ResourceComInfo" class="weaver.hrm.resource.ResourceComInfo" scope="page" />
 <jsp:useBean id="BaseBean" class="weaver.general.BaseBean" scope="page" />
 <%
 FileUpload fu = new FileUpload(request);
 String userid = ""+user.getUID();
+//获取外来人员显示页面id
+String outHumShowPageId = BaseBean.getPropValue("meeting", "outHumShowPageId");
+BaseBean.writeLog("outHumShowPageId:"+outHumShowPageId);
 
 char flag=Util.getSeparator() ;
 String ProcPara = "";
@@ -34,24 +36,19 @@ RecordSet.next();
 String meetingtype=RecordSet.getString("meetingtype");
 String meetingname=RecordSet.getString("name");
 
-String tempDesc = Util.toHtmltextarea(RecordSet.getString("desc_n"));
-
 String caller=RecordSet.getString("caller");
 String contacter=RecordSet.getString("contacter");
 String creater=RecordSet.getString("creater");
 //外部人员
 String othermembers = Util.null2String(RecordSet.getString("othermembers"));
+
+Calendar today = Calendar.getInstance();
+String currentdate = Util.add0(today.get(Calendar.YEAR), 4) + "-" +
+                     Util.add0(today.get(Calendar.MONTH) + 1, 2) + "-" +
+                     Util.add0(today.get(Calendar.DAY_OF_MONTH), 2) ;
+
 //成本统计为只读 获取参会人员统计成本  lq 2015-10-21
 String costNum=RecordSet.getString("cost");
-String xiaoshi=RecordSet.getString("xiaoshi");
-String totalmember=RecordSet.getString("totalmember");
-
-String address=RecordSet.getString("address");
-String customizeAddress = Util.null2String(RecordSet.getString("customizeAddress"));
-boolean hideAddress=true;//是否隐藏会议室
-if("".equals(address)&&"".equals(customizeAddress)){
-	hideAddress=false;
-}	
 
 //总部议事管理员【编辑/取消】权限  lq 2015-10-25 start
 //议事规则 编辑权限
@@ -108,6 +105,8 @@ if(isUseMtiManageDetach){
 RecordSet.executeProc("Meeting_Type_SelectByID",meetingtype);
 RecordSet.next();
 String canapprover=RecordSet.getString("approver");
+String isTickling = Util.null2String(RecordSet.getString("isTickling")) ;
+
 
 boolean canedit=false;
 boolean cansubmit=false;
@@ -298,8 +297,9 @@ String needcheck="";
 <%@ include file="/systeminfo/TopTitle_wev8.jsp" %>
 <%@ include file="/systeminfo/RightClickMenuConent_wev8.jsp" %>
 <%
-RCMenu += "{提交,javascript:doSubmit(this),_self} " ;
+RCMenu += "{"+SystemEnv.getHtmlLabelName(86,user.getLanguage())+",javascript:doSave(this),_self} " ;
 RCMenuHeight += RCMenuHeightStep ;
+
  
 RCMenu += "{"+SystemEnv.getHtmlLabelName(309,user.getLanguage())+",javascript:btn_cancle(),_self} " ;
 RCMenuHeight += RCMenuHeightStep ;
@@ -312,7 +312,7 @@ RCMenuHeight += RCMenuHeightStep ;
 		</td>
 		<td class="rightSearchSpan"
 			style="text-align: right; width: 400px !important">
-			<input type="button" value="提交" class="e8_btn_top middle" onclick="doSubmit(this)"/>
+			<input type="button" value="<%=SystemEnv.getHtmlLabelName(86,user.getLanguage()) %>" class="e8_btn_top middle" onclick="doSave(this)"/>
 			<span
 				title="<%=SystemEnv.getHtmlLabelName(23036, user.getLanguage())%>"  class="cornerMenu middle"></span>
 		</td>
@@ -325,12 +325,9 @@ RCMenuHeight += RCMenuHeightStep ;
 </div>
 
 <div class="zDialog_div_content" style="overflow:auto;">
-<FORM id=weaver name=weaver action="/meeting/modify/MeetingModifyOperation.jsp" method=post>
+<FORM id=weaver name=weaver action="/meeting/data/MeetingOperation.jsp" method=post>
 <input class=inputstyle type="hidden" name="method" value="edit">
-<input class=inputstyle type="hidden" name="meetingid" id="meetingid" value="<%=meetingid%>">
-<input class=inputstyle type="hidden" name="meetingnamestr" value="<%=meetingname%>">
-<input class=inputstyle type="hidden" id="tempDesc" name="tempDesc" value="<%=tempDesc%>">
-<input class=inputstyle type="hidden" id="isChage" name="isChage" value="0">
+<input class=inputstyle type="hidden" name="meetingid" value="<%=meetingid%>">
 <input class=inputstyle type="hidden" name="topicrows" value="0">
 <input class=inputstyle type="hidden" name="topicAttachrows" value="0">
 <input class=inputstyle type="hidden" name="servicerows" value="0">
@@ -363,7 +360,6 @@ for(String groupid:groupList){
 		
 		String fieldname = MeetingFieldComInfo.getFieldname(fieldid);
 		int fieldlabel = Util.getIntValue(MeetingFieldComInfo.getLabel(fieldid));
-		int type = Integer.parseInt(MeetingFieldComInfo.getFieldType(fieldid));
 		int fieldhtmltype = Integer.parseInt(MeetingFieldComInfo.getFieldhtmltype(fieldid));
 		boolean issystem ="1".equals(MeetingFieldComInfo.getIssystem(fieldid))||"0".equals(MeetingFieldComInfo.getIssystem(fieldid));
 		boolean ismand="1".equals(MeetingFieldComInfo.getIsmand(fieldid));
@@ -404,14 +400,15 @@ for(String groupid:groupList){
 			cfg.put("width","60%");
 			extendHtml="<div class=\"FieldDiv\" id=\"selectRoomdivb\" name=\"selectRoomdivb\" style=\"margin-left:10px;margin-top: 3px;float:left;\">"+
 							"<A href=\"javascript:showRoomsWithDate();\" style=\"color:blue;\">"+SystemEnv.getHtmlLabelName(2193,user.getLanguage())+"</A>"+
+							"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href=\"javascript:showQRCode();\" style=\"color:blue;\">获取二维码</A>"+
 						"</div>";
-			extendHtml+="<div class=\"FieldDiv\" id=\"znpp\" name=\"znpp\" style=\"margin-left:10px;margin-top: 3px;float:left;\">"+
-							"<A href=\"javascript:showQRCode();\" style=\"color:blue;\">获取二维码</A>"+
-						"</div>";	
 			cfg.put("callback","addressCallBack");
-			//if(("".equals(fieldValue)||"0".equals(fieldValue))&&hideAddress) continue;
 		}else if("customizeAddress".equalsIgnoreCase(fieldname)){
-			//if("".equals(fieldValue)) continue;
+			String extendHtml1 ="<div class=\"FieldDiv\" id=\"znpp\" name=\"znpp\" style=\"margin-left:10px;margin-top: 3px;float:left\">"+
+	         	"<A href=\"javascript:showQRCode();\" style=\"color:blue;\">获取二维码</A>"+
+			    "</div>";
+				//添加获取二维码
+				extendHtml = "<table id=\"my_customizeAddress\" style=\"width:70%\"><tr style=\"width:100%\"><td style=\"width:80%\"><span >"+extendHtml+"</td><td>"+extendHtml1+"</td></tr></table>";
 		}else if("caller".equalsIgnoreCase(fieldname)){//召集人,添加查询条件
 			if(isresetType){//如果重新选择了会类型,更新召集人
 				fieldValue=caller;
@@ -420,15 +417,29 @@ for(String groupid:groupList){
 				cfg.put("browserUrl","/systeminfo/BrowserMain.jsp?url=/meeting/data/CallerBrowser.jsp?meetingtype="+meetingtype);
 				cfg.put("completeUrl","/data.jsp?type=meetingCaller&meetingtype="+meetingtype);
 			}
+			//人员链接修改2017-1-15
+			cfg.put("callback","getCallerHtml");
 		}else if("repeatType".equalsIgnoreCase(fieldname)){//重复模式,添加change事件
 			cfg.put("func","changeRepeatType()");
 		}else if("hrmmembers".equalsIgnoreCase(fieldname)){//参会人员,不计算参会人数,需要计算,打开下面注释代码
 			//编辑状态 重新计算参会人员成本  by lq 2015-10-22
-			cfg.put("callback","countAttend");
+			cfg.put("callback","getHrmmembersHtml");
 		}else if("crmmembers".equalsIgnoreCase(fieldname)){//参会客户,不计算参会客户数,需要计算,打开下面注释代码
 			//cfg.put("callback","countAttendCRM");
 		}else if("remindTypeNew".equalsIgnoreCase(fieldname)){//默认提醒方式
 			cfg.put("callback","onRemindType");
+		}else if("recorder".equalsIgnoreCase(fieldname)){
+			//记录人
+			//人员链接修改 2017-1-14
+			cfg.put("callback","getRecorderHtml");
+		}else if("ccmeetingnotice".equalsIgnoreCase(fieldname)){
+			//会议通知抄送人
+			//人员链接修改 2017-1-14
+			cfg.put("callback","getCcmeetingnoticeHtml");
+		}else if("ccmeetingminutes".equalsIgnoreCase(fieldname)){
+			//会议纪要抄送人
+			//人员链接修改 2017-1-14
+			cfg.put("callback","getCcmeetingminutesHtml");
 		}
 		
 		if("remindHoursBeforeStart".equalsIgnoreCase(fieldname)||"remindTimesBeforeStart".equalsIgnoreCase(fieldname)
@@ -439,126 +450,172 @@ for(String groupid:groupList){
 		
 		//提醒时间特殊处理			
 		if("remindBeforeStart".equals(fieldname)){
-			//
+	%>	
+		<wea:item attributes="{'samePair':'remindtimetr'}">
+		<%=SystemEnv.getHtmlLabelName(fieldlabel,user.getLanguage())%>
+		</wea:item> 
+		<wea:item attributes="{'samePair':'remindtimetr'}">
+			<div style="float:left;">
+				<%=HtmlUtil.getHtmlElementString(fieldValue,cfg,user)%>
+				&nbsp;&nbsp;<span><%=SystemEnv.getHtmlLabelName(19784,user.getLanguage())%></span>
+				<%=HtmlUtil.getHtmlElementString(hfm.getData("remindHoursBeforeStart"),hfm.getFieldConf("25"),user)%>
+				<span><%=SystemEnv.getHtmlLabelName(391,user.getLanguage())%></span>
+				<%=HtmlUtil.getHtmlElementString(hfm.getData("remindTimesBeforeStart"),hfm.getFieldConf("26"),user)%>
+				<span><%=SystemEnv.getHtmlLabelName(15049,user.getLanguage())%></span>
+			</div>
+		</wea:item>	
+	<%		
 		}else if("remindBeforeEnd".equals(fieldname)){
-			//
+	%>	
+		<wea:item attributes="{'samePair':'remindtimetr'}">
+		<%=SystemEnv.getHtmlLabelName(fieldlabel,user.getLanguage())%>
+		</wea:item> 
+		<wea:item attributes="{'samePair':'remindtimetr'}">
+			<div style="float:left;">
+				<%=HtmlUtil.getHtmlElementString(fieldValue,cfg,user)%>
+				&nbsp;&nbsp;<span><%=SystemEnv.getHtmlLabelName(19785,user.getLanguage())%></span>
+				<%=HtmlUtil.getHtmlElementString(hfm.getData("remindHoursBeforeEnd"),hfm.getFieldConf("27"),user)%>
+				<span><%=SystemEnv.getHtmlLabelName(391,user.getLanguage())%></span>
+				<%=HtmlUtil.getHtmlElementString(hfm.getData("remindTimesBeforeEnd"),hfm.getFieldConf("28"),user)%>
+				<span><%=SystemEnv.getHtmlLabelName(15049,user.getLanguage())%></span>
+			</div>
+		</wea:item>	
+	<%		
 		}else if("remindImmediately".equalsIgnoreCase(fieldname)){
-			//
-		}else if("repeatdays".equalsIgnoreCase(fieldname)){
-			//
+	%>	
+		<wea:item attributes="{'samePair':'remindtimetr1'}">
+		<%=SystemEnv.getHtmlLabelName(fieldlabel,user.getLanguage())%>
+		</wea:item> 
+		<wea:item attributes="{'samePair':'remindtimetr1'}">
+			<%=HtmlUtil.getHtmlElementString(fieldValue,cfg,user)%>
+		</wea:item>	
+	<%		 
+		}else if("repeatdays".equalsIgnoreCase(fieldname)){//重复会议时间处理
+	%>	
+		<wea:item>
+			<%=SystemEnv.getHtmlLabelName(25898,user.getLanguage())%>
+		</wea:item> 
+		<wea:item>
+			<div id="repeatType1" style="display:none" name="repeatTypeDiv">
+			    <%=HtmlUtil.getHtmlElementString(hfm.getData("repeatdays"),cfg,user)%>
+			 &nbsp;<%=SystemEnv.getHtmlLabelName(1925,user.getLanguage())%>
+			</div>
+			<div id="repeatType2" style="display:none"  name="repeatTypeDiv">
+				<%=SystemEnv.getHtmlLabelName(21977,user.getLanguage())%>&nbsp;
+			    <% out.println(HtmlUtil.getHtmlElementString(hfm.getData("repeatweeks"),hfm.getFieldConf("10"),user));%>
+			    &nbsp;<%=SystemEnv.getHtmlLabelName(1926,user.getLanguage())%><br>
+			 	<%out.println(HtmlUtil.getHtmlElementString(hfm.getData("rptWeekDays"),hfm.getFieldConf("11"),user));%>
+			</div>
+			<div id="repeatType3" style="display:none"  name="repeatTypeDiv">
+				<%=SystemEnv.getHtmlLabelName(21977,user.getLanguage())%>&nbsp;
+			    <%out.println(HtmlUtil.getHtmlElementString(hfm.getData("repeatmonths"),hfm.getFieldConf("12"),user));%>
+			    &nbsp;<%=SystemEnv.getHtmlLabelName(25901,user.getLanguage())%>&nbsp;
+			 	<%out.println(HtmlUtil.getHtmlElementString(hfm.getData("repeatmonthdays"),hfm.getFieldConf("13"),user));%>
+			 	&nbsp;<%=SystemEnv.getHtmlLabelName(1925,user.getLanguage())%>
+			</div>
+		</wea:item>	
+	<%	
+	}else{
+		if("begindate".equalsIgnoreCase(fieldname)||"enddate".equalsIgnoreCase(fieldname)){
+			cfg.put("minDate",currentdate);
+		}
+		String htmElementString = HtmlUtil.getHtmlElementString(fieldValue,cfg,user);
+		
+		//lq 议事规则
+		if("meetingtype".equals(fieldname) && (isRuleManage.equals("1") || isRuleManage.equals("2"))){
+		
+		//lq 议事规则 判断议事规则是否是勾选状态	
+		if("1".equals(isRuleManageForSql) || "2".equals(isRuleManageForSql)){		
+			extendHtml = "<div>&nbsp;&nbsp;&nbsp;&nbsp;<input type='checkbox' id='isRulesOfProcedure' checked=\"checked\" /> <span style=\"color:red\">议事规则</span></div>";
 		}else{
-			String htmElementString = HtmlUtil.getHtmlElementString(fieldValue,cfg,user);
-			//lq 议事规则
-			if("hrmmembers".equals(fieldname)){
-				htmElementString += "&nbsp;&nbsp;&nbsp;&nbsp;<input type=\"hidden\"  size=\"5\" value=\"\" id=\"cost\" name=\"cost\" />";
-			}else if("addressselect".equals(fieldname)){//会议地点类型
-				
-			}else if("desc_n".equals(fieldname)){//会议要求
-				
-			}else if("address".equals(fieldname)){
-				htmElementString = "<span id=\"my_address\">"+htmElementString+"</span>";
-				//address customizeAddress addressselect
-			}else if("customizeAddress".equalsIgnoreCase(fieldname)){
-				//htmElementString = "<span id=\"my_customizeAddress\">"+htmElementString+"</span>";
-				String extendHtml1 ="<div class=\"FieldDiv\" id=\"znpp\" name=\"znpp\" style=\"margin-left:10px;margin-top: 3px;float:left\">"+
-			                     	         "<A href=\"javascript:showQRCode();\" style=\"color:blue;\">获取二维码</A>"+
-						    "</div>";
-				//添加获取二维码
-				htmElementString = "<table id=\"my_customizeAddress\" style=\"width:70%\"><tr style=\"width:100%\"><td style=\"width:80%\"><span >"+htmElementString+"</td><td>"+extendHtml1+"</td></tr></table>";
-			}else if("begindate".equals(fieldname)){
-				cfg.put("callback","countCost");
-			}else if("begintime".equals(fieldname)){
-				cfg.put("callback","countCost");
-			}else if("enddate".equals(fieldname)){
-				cfg.put("callback","countCost");
-			}else if("endtime".equals(fieldname)){
-				cfg.put("callback","countCost");
-			}else if("ccmeetingnotice".equalsIgnoreCase(fieldname)){
-				//会议通知抄送人
-				//人员链接修改 2017-1-14
-				cfg.put("callback","getCcmeetingnoticeHtml");
-			}else if("ccmeetingminutes".equalsIgnoreCase(fieldname)){
-				//会议纪要抄送人
-				//人员链接修改 2017-1-14
-				cfg.put("callback","getCcmeetingminutesHtml");
-			}
-			//联系人只读 by lq 2015-11-2 start
-			else if("contacter".equalsIgnoreCase(fieldname)){//联系人 为当前用户 不能编辑
-				htmElementString = "<div style=\"display:none\">"+htmElementString+"</div>";
-				extendHtml = "<A href=\"/hrm/resource/HrmResource.jsp?id="+contacter+"\" target=_blank>"+ResourceComInfo.getLastname(contacter)+"</A>";			
-			}
-			//联系人只读 by lq 2015-11-2 start		
+			extendHtml = "<div>&nbsp;&nbsp;&nbsp;&nbsp;<input type='checkbox' id='isRulesOfProcedure' /> <span style=\"color:red\">议事规则</span></div>";
+		}
+
+		}else
+		if("hrmmembers".equals(fieldname)){
+			//htmElementString += "&nbsp;&nbsp;会议成本&nbsp;&nbsp;<input datatype=\"text\" class=\"InputStyle\"  size=\"5\" value=\"\" id=\"cost\" name=\"cost\"  style=\"width:10%\"/>";
+		}else if("address".equals(fieldname)){
+			htmElementString = "<span id=\"my_address\">"+htmElementString+"</span>";
+			//address customizeAddress addressselect
+		}else if("customizeAddress".equals(fieldname)){
+			htmElementString = "<span id=\"my_customizeAddress\">"+htmElementString+"</span>";
 			
-			//成本统计为只读 by lq 2015-10-21 start
-			else if("cost".equals(fieldname)){			
-				//判断会议成本是否空
-				if("".equals(costNum)){
-					costNum = "0";
-				}
-				//隐藏原成本统计的输入框
-				htmElementString = "<div id=\"costDiv\" style=\"display:none\">"+htmElementString+"</div>";
-				//添加span用来显示数字
-				extendHtml = "<span id=\"costSpan\">"+costNum+"</span>";
-			}else if("totalmember".equals(fieldname)){			
-				//判断会议成本是否空
-				if("".equals(totalmember)){
-					totalmember = "0";
-				}
-				//隐藏原成本统计的输入框
-				htmElementString = "<div id=\"totalmemberDiv\" style=\"display:none\">"+htmElementString+"</div>";
-				//添加span用来显示数字
-				extendHtml = "<span id=\"totalmemberSpan\">"+totalmember+"</span>";
-			}else if("xiaoshi".equals(fieldname)){			
-				//判断会议成本是否空
-				if("".equals(xiaoshi)){
-					xiaoshi = "0";
-				}
-				//隐藏原成本统计的输入框
-				htmElementString = "<div id=\"costDiv\" style=\"display:none\">"+htmElementString+"</div>";
-				//添加span用来显示数字
-				extendHtml = "<span id=\"xiaoshiSpan\">"+xiaoshi+"</span>";
-			}else{
-				//转成html显示
-				if(fieldhtmltype==4){//check框,变成disabled
-					cfg.put("disabled","disabled");
-					fieldValue=HtmlUtil.getHtmlElementString(fieldValue,cfg,user);
-				}else if(fieldhtmltype==5){//check框,变成disabled
-					if("addressselect".equalsIgnoreCase(fieldname)){
-						extendHtml = "<input type=\"hidden\" name=\"addressselect\" id=\"addressselect\" value=\""+fieldValue+"\" >";
-					}
-					htmElementString=hfm.getFieldvalue(user, Integer.parseInt(fieldid), fieldhtmltype, type, fieldValue, 0);
-				}else if(fieldhtmltype==6){
-					cfg.put("canDelAcc",false);//是否有删除按钮
-					cfg.put("canupload",false);//是否可以上传
-					cfg.put("candownload",true);//是否有下载按钮
-					htmElementString=HtmlUtil.getHtmlElementString(fieldValue,cfg,user);
-				}else if(fieldhtmltype==3){
-					htmElementString=hfm.getHtmlBrowserFieldvalue(user,Integer.parseInt(fieldid),fieldhtmltype,type,fieldValue);
-				}else{
-					htmElementString=hfm.getFieldvalue(user, Integer.parseInt(fieldid), fieldhtmltype, type, fieldValue, 0);
-				}
-				if("remindTypeNew".equalsIgnoreCase(fieldname)){
-					htmElementString="".equals(fieldValue)?SystemEnv.getHtmlLabelName(19782,user.getLanguage()):fieldValue;
-				}
-				//外来人员 判断是否为其他人员，重新生成其他人员生成显示框 start
-				if("othermembers".equalsIgnoreCase(fieldname)){			
-					System.out.println("fieldValue:"+fieldValue);
-					System.out.println("extendHtml:"+extendHtml);
-					//清除原来显示内容
-					htmElementString = "";
-					extendHtml = "<input type=\"hidden\" name = \"othermembers\" id=\"othermembers\" value=\""+fieldValue+"\"/><span id=\"othermembersspan\" name=\"othermembersspan\">"+fieldValue+"</span>"	;		
-					fieldValue = "";					
-				}
-				//外来人员 判断是否为其他人员，重新生成其他人员生成显示框 end 
+		}
+		//创建人只读 by lq 2015-11-2 start
+		else if("contacter".equalsIgnoreCase(fieldname)){//创建人 为当前用户 不能编辑
+			htmElementString = "<div style=\"display:none\">"+htmElementString+"</div>";
+			//RecordSet.executeSql("select lastname from hrmresource where id="+contacter);
+			//RecordSet.next();
+			//extendHtml = "<A href=\"/hrm/resource/HrmResource.jsp?id="+contacter+"\" target=_blank>"+RecordSet.getString("lastname")+"</A>";
+			extendHtml = "<a onclick=\"pointerXY(event);\" href=\"javaScript:openhrm("+contacter+");\">"+user.getLastname()+"</a>";
+						
+		}
+		//创建人只读 by lq 2015-11-2 start		
+		
+		//成本统计为只读 by lq 2015-10-21 start
+		else if("cost".equals(fieldname)){			
+			
+			//判断会议成本是否空
+			if("".equals(costNum)){
+				costNum = "0";
 			}
-		%>		
-			<wea:item>
-				<%=SystemEnv.getHtmlLabelName(fieldlabel,user.getLanguage())%>
-			</wea:item> 
-			<wea:item>
-				<%=htmElementString%>
-				<%=extendHtml%>
-			</wea:item>	
+			//隐藏原成本统计的输入框
+			htmElementString = "<div id=\"costDiv\" style=\"display:none\">"+htmElementString+"</div>";
+			//添加span用来显示数字
+			extendHtml = "<span id=\"costSpan\">"+costNum+"</span>";
+		}else if("isAppraise".equals(fieldname)){	
+			if("1".equals(isTickling)){
+				//隐藏原成本统计的输入框
+				htmElementString = "<div id=\"isAppraiseDiv\" style=\"display:none\">"+htmElementString+"</div>";
+				//添加span用来显示数字
+				extendHtml = "<span id=\"isAppraiseSpan\">是</span>";
+			}
+		}
+		//成本统计为只读 by lq 2015-10-21 end
+		else if("othermembers".equalsIgnoreCase(fieldname)){//其他参会人员
+		
+			extendHtml+="<div class=\"FieldDiv\" id=\"znpp\" name=\"znpp\" style=\"margin-left:10px;margin-top: 3px;float:left;\">"+
+							"<A href=\"javascript:addOtherHum();\" style=\"color:blue;\">外来人员录入</A>"+
+						"</div>";
+	
+			String outHtml = "";
+			
+			outHtml += "<span id=\"my_othermembers\"><span id=\"othermembers_span\" class=\"browser\">"; 
+			outHtml += "  <div style=\"WIDTH: 80%\" class=\"e8_os\"> ";
+			outHtml += "   <div style=\"MAX-HEIGHT: 2200px\" class=\"e8_innerShow e8_innerShow_button\">";
+			outHtml += "    <span class=\"e8_spanFloat\"><span class=\"e8_browserSpan\"><button id=\"othermembers_browserbtn\" class=\"e8_browflow\" onclick=\"selectOutHum();\" type=\"button\"></button></span></span>";
+			outHtml += "   </div> ";
+			//叹号图片
+			outHtml += "   <div class=\"e8_innerShow e8_innerShowMust\">";
+			//outHtml += "    <span id=\"othermembersspanimg\" class=\"e8_spanFloat\" name=\"othermembersspanimg\"><img align=\"absMiddle\" src=\"/images/BacoError_wev8.gif\" /></span>";
+			outHtml += "   </div> ";
+			outHtml += "   <div style=\"WIDTH: 100%; MARGIN-RIGHT: -30px\" id=\"outothermembersdiv\" class=\"e8_outScroll\" >"; 
+			outHtml += "   <div hidefocus=\"\" style=\"OVERFLOW-Y: hidden; MAX-HEIGHT: 2200px; MARGIN-RIGHT: 30px\" id=\"innerContentothermembersdiv\" class=\"e8_innerShow e8_innerShowContent\" tabindex=\"5004\" >"; 
+			outHtml += "     <div style=\"MARGIN-LEFT: 31px\" id=\"innerothermembersdiv\" hasbrowser=\"true\" hasadd=\"false\">";
+			outHtml += "      <input id=\"othermembers\" type=\"hidden\" name=\"othermembers\" temptitle=\"\" viewtype=\"0\" ismustinput=\"2\" issingle=\"true\" value=\""+othermembers+"\" />";
+			outHtml += "      <span style=\"FLOAT: none\" id=\"othermembersspan\" name=\"othermembersspan\"></span> ";
+			outHtml += "     </div>";
+			outHtml += "    </div>";
+			outHtml += "   </div>";
+			outHtml += "  </div>";
+			outHtml += "</span> ";
+			outHtml += "</span>";
+			
+			//htmElementString
+			//htmElementString = "<table style=\"width:70%\"><tr style=\"width:100%\"><td style=\"width:80%\"><div style=\"float:left;width:90%\" id=\"my_customizeAddress\">"+inputHtml+buttonHtml+"</div></td><td>"+extendHtml+"</td></tr></table>";
+			htmElementString = outHtml+extendHtml;
+			
+			extendHtml = "";
+		}
+		
+	%>		
+		<wea:item>
+			<%=SystemEnv.getHtmlLabelName(fieldlabel,user.getLanguage())%>
+		</wea:item> 
+		<wea:item>
+			<%=htmElementString%>
+			<%=extendHtml%>
+		</wea:item>	
 	<%	}
 	}%>
 </wea:group>
@@ -767,13 +824,13 @@ for(String groupid:groupList){
         			
         	%>		<table id="topicAttachTabField" class=ListStyle  border=0 cellspacing=1>
         			  <colgroup>
-        			  	<col width="5%">
+        			  	<col width="3%">
         	<%		for(int i=0;i<colSize;i++){
-		        		if(i==0){
-				        	out.print("<col width='5%'>\n");
-				        }else{
-        					out.print("<col width='"+(95/colSize)+"%'>\n");
-		       			}
+        		        if(i==0){
+        		        	out.print("<col width='3%'>\n");
+        		        }else{
+        		        	out.print("<col width='"+(95/colSize)+"%'>\n");
+        		        }
         			}
         			out.println("</colgroup>\n");
         			out.println("<TR class=HeaderForXtalbe>\n");
@@ -824,7 +881,154 @@ for(String groupid:groupList){
 	  </TABLE>  
 	  <!-- end 会议议程附件 -->
 	</div>
-
+	
+	<div id="serviceDiv" style="display:none;">
+	   	<div id="serviceRowSource" style="display:none;">
+	   		<div name='serviceRowSourceDiv' id="serviceRowSource_0" fieldName="serviceChk" fieldid="0">
+	   			<input name="serviceChk" type="checkbox" value="1" rowIndex='#rowIndex#'>
+	   		</div>
+	   		<%
+	   		int serviceColSize=1;
+        	MeetingFieldManager hfm3 = new MeetingFieldManager(3);
+        	groupList=hfm3.getLsGroup();
+        	for(String groupid:groupList){
+        		fieldList= hfm3.getUseField(groupid);
+        		int i=0;
+        		if(fieldList!=null&&fieldList.size()>0){
+	        		serviceColSize=fieldList.size()+1;
+        			for(String fieldid:fieldList){
+        				i++;
+						String fieldname = MeetingFieldComInfo.getFieldname(fieldid);
+	        			String fieldVaule="";
+	        			String fieldhtmltype=MeetingFieldComInfo.getFieldhtmltype(fieldid);
+	        			 
+	        			JSONObject cfg= hfm3.getFieldConf(fieldid);
+	        			cfg.put("isdetail", 1);//明细列表显示
+	        			ht=HtmlUtil.getHtmlElementHashTable(fieldVaule,cfg,user);
+	        %>
+	       <div name='serviceRowSourceDiv' id="serviceRowSource_<%=i %>" fieldName="<%=fieldname %>" fieldid="<%=fieldid %>" fieldhtmltype="<%=fieldhtmltype %>">
+	       		<%=ht.get("inputStr") %>
+	       </div>
+	       <%if(!"".equals(ht.get("jsStr"))){ %>
+	       <div id="serviceRowSource_js_<%=i %>">
+	       		<%=ht.get("jsStr") %>
+	       </div> 
+	        <%}
+	        		}
+        		}
+        	}
+        	%>
+	   	</div>
+	   	<TABLE class="ViewForm">
+        <TBODY>
+        <TR class="Title">
+             <TH>&nbsp;</TH>
+            <Td class="Field" align=right>
+            	<input class="addbtn" accesskey="A" onclick="addNewRow('service');" title="<%=SystemEnv.getHtmlLabelName(611,user.getLanguage())%>" type="button">
+				<input class="delbtn" accesskey="E" onclick="deleteSelectedRow('service');" title="<%=SystemEnv.getHtmlLabelName(91,user.getLanguage())%>" type="button">
+			</Td>
+          </TR>
+        <TR class="Spacing" style="height:1px!important;">
+          <TD class="Line1" colspan=2></TD></TR>
+        <tr>
+        	<td class="Field" colspan=2>
+        	<%
+        	RecordSet3.execute("select * from meeting_service_new where meetingid="+meetingid);
+        	for(String groupid:groupList){
+        		fieldList= hfm3.getUseField(groupid);
+        		
+        		if(fieldList!=null&&fieldList.size()>0){
+        			int colSize=fieldList.size();
+        			
+        	%>		<table id="serviceTabField" class=ListStyle  border=0 cellspacing=1>
+        			  <colgroup>
+        			  	<col width="5%">
+        	<%		for(int i=0;i<colSize;i++){
+        				out.print("<col width='"+(95/colSize)+"%'>\n");
+        			}
+        			out.println("</colgroup>\n");
+        			out.println("<TR class=HeaderForXtalbe>\n");
+        			out.println("<th><input name=\"serviceChkAll\" tarObj=\"serviceChk\" type=\"checkbox\" onclick=\"jsChkAll(this)\"></th>\n");
+        		  	
+        			for(String fieldid:fieldList){
+        				int fieldlabel = Util.getIntValue(MeetingFieldComInfo.getLabel(fieldid));
+        				out.println("<th>"+SystemEnv.getHtmlLabelName(fieldlabel,user.getLanguage())+"</th>\n");
+	        
+	   				}
+        			//展示历史数据
+        			while(RecordSet3.next()){
+        				servicerows++;
+        				out.print("<tr class='DataLight'>\n"); 
+        				out.print("<td><input name=\"serviceChk\" type=\"checkbox\" value=\"1\" rowIndex='"+servicerows+"'><input name=\"serivce_data_"+servicerows+"\" type=\"hidden\" value=\""+RecordSet3.getString("id")+"\" ></td>\n"); 
+        				for(String fieldid:fieldList){
+            				String fieldname = MeetingFieldComInfo.getFieldname(fieldid);
+            				int fieldhtmltype = Integer.parseInt(MeetingFieldComInfo.getFieldhtmltype(fieldid));
+            				int type = Integer.parseInt(MeetingFieldComInfo.getFieldType(fieldid));
+            				JSONObject cfg= hfm3.getFieldConf(fieldid);
+            				cfg.put("rowindex",servicerows);
+            				String fieldValue = RecordSet3.getString(fieldname);
+            				 
+            				out.println("<td>"+HtmlUtil.getHtmlElementString(fieldValue,cfg,user)+"</td>\n");
+    	        
+    	   				}
+        				out.print("</tr>\n"); 
+        			}
+        			
+        			
+        			out.print("</tr></table>\n"); 
+        		}
+        	}
+        	%>         
+        	</td>
+        </tr>
+        </TBODY>
+	  </TABLE>
+	</div>
+	
+	<!--会议共享 	lq  2015-10-13 开始-->
+	<div id="shareDiv" style="display:none;">		
+		<wea:layout type="2col" >
+			<wea:group context="<%=SystemEnv.getHtmlLabelName(2112,user.getLanguage())%>">
+				<wea:item>共享人员</wea:item>
+				<wea:item>
+					<%
+						//获取原共享人员id 
+						String hrmNames = "";
+						String hrmids = "";
+						String selSql = "select hr.id,hr.lastname from Meeting_ShareDetail msd,HrmResource hr where msd.meetingid = "+meetingid+" and msd.sharelevel = 101 and hr.id = msd.userid";
+						RecordSet3.executeSql(selSql);
+						while(RecordSet3.next()){
+							String hrmid = RecordSet3.getString("id");
+							String hrmName = RecordSet3.getString("lastname");
+							if(!"".equals(hrmid) && !"".equals(hrmName)){
+								hrmids += hrmid+",";
+								hrmNames += hrmName+",";								
+							}
+						}
+						
+						if(!"".equals(hrmids) && !"".equals(hrmNames)){
+							hrmids = hrmids.substring(0, hrmids.lastIndexOf(","));
+							hrmNames = hrmNames.substring(0, hrmNames.lastIndexOf(","));
+						}else{
+							hrmids = "";
+							hrmNames = "";
+						}
+						
+												
+					%>
+					<span id="showButton" style="float:left;">
+						<brow:browser viewType="1" name="relatedshareid" browserValue="<%=hrmids%>" 
+								browserUrl="#" getBrowserUrlFn="getBrowserUrlFn"
+								hasInput="true" isSingle="false" hasBrowser = "true" isMustInput='1'
+								completeUrl="/data.jsp" width="370px" _callback="setRelatedName" browserSpanValue="<%=hrmNames%>">
+						</brow:browser>
+						<input type="hidden" name = "showrelatedsharename" id="showrelatedsharename"/>
+					</span>
+				</wea:item>
+			</wea:group>
+		</wea:layout>
+	</div>
+	<!--会议共享 	lq  2015-10-13 结束-->
 </FORM>
 </div>
 <div id="zDialog_div_bottom" class="zDialog_div_bottom">
@@ -841,56 +1045,34 @@ for(String groupid:groupList){
 
 <script language="JavaScript" src="/js/addRowBg_wev8.js" >   </script>  
 <script language=javascript>
+
+
 $(document).ready(function(){
 	setInterval(countCost,1000);
+	$("#xiaoshi").attr("readonly",true).css("width","60px");
+
+
+	setInterval(function() {
+		jQuery.ajax({
+			url : "/meeting/report/GetMeetingTmp.jsp",
+			type : "post",
+			async : false,
+			processData : false,
+			data : "",
+			dataType : "html",
+			success: function do4Success(msg){
+				msg= msg.replace(/(^\s*)|(\s*$)/g, "");
+				if(msg != "NoData"){
+					var msgArr = msg.split("$");
+					
+					$('#address').val(msgArr[0]);
+					$('#addressspan').html(msgArr[1]);
+					countCost();
+				}
+			}
+		});	
+ 	}, 1000);
 });
-
-function countCost(){
-	//计算参会人成本   lq  2015-9-1
-	$.post("/weavernorth/meeting/AjaxCountCost.jsp?method=countcost",
-			{"hrmmembers":$('#hrmmembers').val(),"begindate":$("#begindate").val(),
-			 "begintime":$("#begintime").val(),"enddate":$("#enddate").val(),"endtime":$("#endtime").val()
-			},
-       	function(datas){
-			var d = datas.split("|");
-			$('#cost').val(d[0]);
-			$('#costSpan').html(d[0]);
-			$("#xiaoshi").val(d[1]);
-			$("#xiaoshiSpan").html(d[1]);
-		}
-	);
-
-	var hrmmember=$('#hrmmembers').val().split(",");
-	if($('#totalmember').length>0){
-		$("#totalmember").val(hrmmember.length);
-		$('#totalmemberSpan').html(hrmmember.length);
-	}else{
-		$("#totalmember").val(0);
-		$('#totalmemberSpan').html(0);
-	}
-
-	if($('#hrmmembers').val()=='' && $('#othermembers').val()=='' ){
-		if($('#totalmember').length>0){
-			$('#totalmember').val(0);
-		}
-	}else{
-		//参会人员
-		var hrmmember= 0;
-		//外来参会人员
-		var othermembers= 0;
-		if($('#hrmmembers').val()){
-			hrmmember = $('#hrmmembers').val().split(",").length;
-		}
-		if($('#othermembers').val()){
-			othermembers = $('#othermembers').val().split(",").length;
-		}
-		
-		if($('#totalmember').length>0){
-			$('#totalmember').val(hrmmember+othermembers);
-			$('#totalmemberSpan').html(hrmmember+othermembers);
-		}
-	}
-}
 
 function onChangeSharetype(delspan,delid,ismand,uploadobj){
 	fieldid=delid.substr(0,delid.indexOf("_"));//fieldid值
@@ -908,7 +1090,6 @@ function onChangeSharetype(delspan,delid,ismand,uploadobj){
    $("input[tarobj='"+fieldid+"']").each(function(){
    		var linknum=$(this).attr("linknum");
    		var linkvalue=$(this).val();
-   		alert(linkvalue);
    		if($("#" + fieldid + "_del_" + linknum).val()=='0'){
    			fieldid_value+=fieldid_value==''?linkvalue:","+linkvalue;
    		}
@@ -937,7 +1118,6 @@ function onChangeSharetypeAttach(delspan,delid,ismand,uploadobj,rowindex){
    			fieldid_value+=fieldid_value==''?linkvalue:","+linkvalue;
    		}
    })
-   
    $('#'+fieldid).val(fieldid_value);
    showmustinput(uploadobj);
 }
@@ -1016,6 +1196,36 @@ rowindex = "<%=topicrows%>";
 attachindex = "<%=topicAttachrows%>";
 function addNewRow(target){
 	if(target=='service'){
+		serviceindex = serviceindex*1 +1;
+		var oRow;
+		var oCell;
+		oRow = jQuery("#serviceTabField")[0].insertRow(-1);
+		oRow.className="DataLight";
+		
+		for(var i=0;i<<%=serviceColSize%>;i++){
+			oCell = oRow.insertCell(-1);
+			var filename=jQuery("#serviceRowSource_"+i).attr("fieldName");
+			var fieldid=jQuery("#serviceRowSource_"+i).attr("fieldid");
+			var ht=jQuery("#serviceRowSource_"+i).html();
+			if(!!ht && ht.match(/#rowIndex#/)){
+				ht=ht.replace(/#rowIndex#/g,serviceindex);
+			}
+			oCell.innerHTML =ht;
+			if(i!=0){
+				if(jQuery("#serviceRowSource_js_"+i)&&jQuery("#serviceRowSource_js_"+i).html()!=''){
+					try{
+						eval("cusFun_"+fieldid+"("+serviceindex+")");
+					}catch(e){}
+				}
+			}
+			
+		}
+		
+		jQuery("#serviceTabField").jNice();
+		jQuery("#serviceTabField").find("select").each(function(){
+			jQuery(this).attr("notBeauty","");
+		})
+		jQuery("#serviceTabField").find("select").selectbox();
 		
 	}else if(target=='topic'){
 		rowindex = rowindex*1 +1;
@@ -1032,7 +1242,6 @@ function addNewRow(target){
 			if(!!ht && ht.match(/#rowIndex#/)){
 				ht=ht.replace(/#rowIndex#/g,rowindex);
 			}
-			
 			oCell.innerHTML =ht;
 			if(i!=0){
 				if(jQuery("#topicRowSource_js_"+i)&&jQuery("#topicRowSource_js_"+i).html()!=''){
@@ -1171,9 +1380,13 @@ function doSubmit(obj){
 
 	//lq 提交 验证是否勾选 议事规则
 	if($('#isRulesOfProcedure').is(':checked')) {
+		
 		$('#rulesOfProcedure').val(1);
+	
 	}else{
+		
 		$('#rulesOfProcedure').val(0);		
+		
 	}
 	
 	var thisvalue=jQuery("#repeatType").val();
@@ -1187,6 +1400,7 @@ function doSubmit(obj){
 	}else if(thisvalue==3){
 		needcheck+=",repeatmonths,repeatmonthdays";
 	}
+
 	if(check_form(document.weaver,needcheck)&&checkDateValidity(begindate,$('#begintime').val(),enddate,$('#endtime').val(),"<%=SystemEnv.getHtmlLabelName(16722,user.getLanguage())%>")){
 			if(checkAddress()){
 		        //当选择重复会议时，不做会议室和人员冲突校验
@@ -1196,30 +1410,29 @@ function doSubmit(obj){
 		        }
 		        //会议室冲突校验
 		        if(<%=meetingSetInfo.getRoomConflictChk()%> == 1 ){
+					forbiddenPage();
 		        	$.post("/meeting/data/AjaxMeetingOperation.jsp?method=chkRoom",{
 		        		address:$GetEle("address").value,
 		        		begindate:begindate,begintime:$('#begintime').val(),
-  						enddate:enddate,endtime:$('#endtime').val(),mid:$('#meetingid').val()},
-		        	function(data){
-						var datas = data.replace(/(^\s*)|(\s*$)/g, "");
+  						enddate:enddate,endtime:$('#endtime').val()},
+		        	function(datas){
 						if(datas != 0){
-							if(datas == 2){
-								Dialog.alert("会议室已经被占用无法预约，请选择其他时间。");		
-							}else{
-								<%if(meetingSetInfo.getRoomConflict() == 1){ %>
-									window.top.Dialog.confirm("<%=SystemEnv.getHtmlLabelName(19095,user.getLanguage())%>", function (){
-										submitact();
-									});
-								<%} else if(meetingSetInfo.getRoomConflict() == 2) {%>
-									Dialog.alert("<%=SystemEnv.getHtmlLabelName(32875,user.getLanguage())%>。");
-								<%}%>
-							}
+							<%if(meetingSetInfo.getRoomConflict() == 1){ %>
+								releasePage();
+				            	window.top.Dialog.confirm("<%=SystemEnv.getHtmlLabelName(19095,user.getLanguage())%>", function (){
+				                	submitChkMbr();
+				            	});
+				            <%} else if(meetingSetInfo.getRoomConflict() == 2) {%>
+								releasePage();
+				            	Dialog.alert("<%=SystemEnv.getHtmlLabelName(32875,user.getLanguage())%>。");
+				            <%}%>
 						} else {
-							submitact();
+							submitChkMbr();
 						}
 					});
+		        	
 		        } else {
-		        	submitact();
+		        	submitChkMbr();
 		        }
 			}
 	}
@@ -1227,6 +1440,7 @@ function doSubmit(obj){
 //人员冲突校验
 function submitChkMbr(){
 	 if(<%=meetingSetInfo.getMemberConflictChk()%> == 1){
+		forbiddenPage();
   		$.post("/meeting/data/AjaxMeetingOperation.jsp?method=chkMember",
   			{hrmids:$("#hrmmembers").val(),crmids:$("#crmmembers").val(),
   			begindate:$('#begindate').val(),begintime:$('#begintime').val(),
@@ -1240,10 +1454,12 @@ function submitChkMbr(){
 					submitact();
 				} else {
 					<%if(meetingSetInfo.getMemberConflict() == 1){ %>
+						releasePage();
 			            window.top.Dialog.confirm(wuiUtil.getJsonValueByIndex(dataObj, 1)+"<%=SystemEnv.getHtmlLabelName(32873,user.getLanguage())%>?", function (){
 			                submitact();
 			            },null, null, 120);
 		            <%} else if(meetingSetInfo.getMemberConflict() == 2) {%>
+						releasePage();
 		            	Dialog.alert(wuiUtil.getJsonValueByIndex(dataObj, 1)+"<%=SystemEnv.getHtmlLabelName(32874,user.getLanguage())%>" ,null ,400 ,150);
 		            	return;
 		            <%}%>
@@ -1255,17 +1471,12 @@ function submitChkMbr(){
 }
 
 function submitact(){
-	var desc_n = $('#desc_n').val();
-	var tempDesc = $('#tempDesc').val();
-
-	if(desc_n.length != tempDesc.length){
-		$('#isChage').val("1");
-	}
-		
+	forbiddenPage();
+	enableAllmenu();
 	document.weaver.topicrows.value=rowindex;
 	document.weaver.topicAttachrows.value=attachindex;
 	document.weaver.servicerows.value=serviceindex;
-	//document.weaver.submit();
+	document.weaver.method.value = "editSubmit";
 	doUpload();
 }
 
@@ -1348,46 +1559,32 @@ function CheckOnShowAddress(){
 }
 //打开会议室选择框
 function onShowAddress(){
-	//var url = "/systeminfo/BrowserMain.jsp?url=/meeting/Maint/MeetingRoomBrowser.jsp";
-	//showBrwDlg(url, "", 500,570,"addressspan","address","addressChgCbk");
-	
-	var url = "/systeminfo/BrowserMain.jsp?url=/meeting/Maint/MutilMeetingRoomBrowser.jsp";
-	showBrwDlg(url, "frommeeting=1&selectedids="+$('#address').val(), 500,480,"addressspan","address","addressChgCbk");
-	$("#src_box_middle").css("height","400px");
-
+	var url = "/systeminfo/BrowserMain.jsp?url=/meeting/Maint/MeetingRoomBrowser.jsp";
+	showBrwDlg(url, "", 500,570,"addressspan","address","addressChgCbk");
 }
 //会议室回写处理
 function addressChgCbk(datas){
+	if (datas != null) {
+		closeBrwDlg();
+		if (wuiUtil.getJsonValueByIndex(datas, 0) != "" && wuiUtil.getJsonValueByIndex(datas, 0) != "0") {
 
-		if(datas){
-		if (datas!=""){
-             var ids = datas.id;
-             var names = datas.name;
-             arrid=ids.split(",");
-             arrname=names.split(",");
-             var html="";
-             for(var i=0;i<arrid.length;i++){
-               html += "<a href='/meeting/Maint/MeetingRoom_list.jsp?id="+arrid[i]+"' target='_new' >"+arrname[i]+"</A>";
-             }
-             html = html.substr(0,html.length-1);
-             $("#addressspan").html(html);
-			 weaver.address.value = ids;
-			 $("#customizeAddressspan").html("");
-		}else{
-			 $("#addressspan").html("<IMG src='/images/BacoError.gif' align=absMiddle>");
-			 weaver.address.value="";
-			 $("#customizeAddressspan").html("<IMG src='/images/BacoError.gif' align=absMiddle>");
+			var resourceids = wuiUtil.getJsonValueByIndex(datas, 0);
+			var resourcename = wuiUtil.getJsonValueByIndex(datas, 1);
+			
+			jQuery("#addressspan").html(resourcename);
+			jQuery("#address").val(resourceids);
+		} else {
+ 			jQuery("#addressspan").html("");
+			jQuery("#address").val("");
 		}
-		
-		 _writeBackData("address",2,{id:jQuery("#address").val(),name:jQuery("#addressspan").html()},{
+		_writeBackData("address",2,{id:jQuery("#address").val(),name:"<a href='/meeting/Maint/MeetingRoom_list.jsp?id="+jQuery("#address").val()+"' target='_new' > "+jQuery("#addressspan").html()+"</a>"},{
 			hasInput:true,
 			replace:true,
-			//isSingle:true,
+			isSingle:true,
 			isedit:true
 		});
 	}
 	addressCallBack();
-
 }
 //会议室选择和填写后方法处理
 function addressCallBack(){
@@ -1400,7 +1597,6 @@ function addressCallBack(){
 }
 //填写自定义会议室时,检测是否选择了会议地点 
 function omd(){
-      /*
 	  var address = $("#address").val();
 	  if(address!=''){
 	  	window.top.Dialog.confirm("<%=SystemEnv.getHtmlLabelName(82885, user.getLanguage())%>",function(){
@@ -1411,7 +1607,7 @@ function omd(){
 	  		$('#customizeAddress').focus();
 	  	});
 	  }
-      */
+       
 }
 
 //改变会议地点和自定义会议地点的必填标识
@@ -1459,7 +1655,7 @@ function meetingTypeChange(){
 function meetingTypeChgCbk(datas){
 	if (datas != null) {
 		callBackValue(datas,"meetingtypespan","meetingtype");
-		$("#weaver").attr("action", "/meeting/modify/MeetingModifyPage.jsp");
+		$("#weaver").attr("action", "/meeting/data/EditMeeting.jsp");
 		$("#weaver").submit();
 	}
 }
@@ -1467,7 +1663,7 @@ function meetingTypeChgCbk(datas){
 //重置与会议类型相关的内容
 function meetingReset(event,datas,name){
 	if (datas != null) {
-		$("#weaver").attr("action", "/meeting/modify/MeetingModifyPage.jsp");
+		$("#weaver").attr("action", "/meeting/data/EditMeeting.jsp");
 		$("#weaver").submit();
 	}
 }
@@ -1481,7 +1677,7 @@ function releasePage(){
 }
 
 function btn_cancle(){
-	parent.closeDialog();
+	window.parent.closeDialog();
 }
 
 jQuery(document).ready(function(){
@@ -1514,7 +1710,7 @@ jQuery(document).ready(function(){
 			$('#my_customizeAddress').parent().parent().hide();
 			$('#my_address').parent().parent().show();
 						
-			//jQuery("#customizeAddress").val("");
+			jQuery("#customizeAddress").val("");
 			checkaddress();
 			
 		}else if(p1 == 1){
@@ -1523,12 +1719,13 @@ jQuery(document).ready(function(){
 			//修改google来浏览器显隐 样式改变问题 by lq 2015-10-22
 			$('#my_customizeAddress').parent().parent().show();
 			$('#my_address').parent().parent().hide();
-			//jQuery("#addressspan").html("");
-			//jQuery("#address").val("");
+			jQuery("#addressspan").html("");
+			jQuery("#address").val("");
 			checkaddress();
 		}
 		
 	}) 
+	
 	//判断外来人员是否有人员，查询人员信息 start
 	var outHumIds = "<%=othermembers %>";
 	debugger;
@@ -1551,6 +1748,18 @@ jQuery(document).ready(function(){
 		});	
 	}
 	//判断外来人员是否有人员，查询人员信息 end
+	//人员链接 start
+	//创建人员获取
+	getCallerHtml();
+	//记录人人员获取
+	getRecorderHtml();
+	//会议通知抄送人
+	getCcmeetingnoticeHtml();
+	//会议通知抄送人
+	getCcmeetingminutesHtml();
+	//参加人员
+	getHrmmembersHtmlInit();
+	//人员链接 end
 });
 //显示和隐藏 提醒时间控制
 function onRemindType(){
@@ -1559,6 +1768,7 @@ function onRemindType(){
 	}else{
 		showEle("remindtimetr", true);
 	}
+	hideEle("remindtimetr1", true);
 }
 //查看会议室使用情况,传递开始日期
 function showRoomsWithDate(){
@@ -1574,7 +1784,7 @@ function showRoomsWithDate(){
 	diag.Modal = true;
 	diag.maxiumnable = true;
 	diag.Title = "<%=SystemEnv.getHtmlLabelName(15881,user.getLanguage())%>";
-	diag.URL = "/meeting/report/MeetingRoomPlan.jsp?currentdate="+begindate;
+	diag.URL = "/meeting/report/MeetingRoomPlanTab.jsp?currentdate="+begindate;
 	diag.show();
 }
 
@@ -1587,6 +1797,365 @@ function setRelatedName(e,datas,name,params){
 		jQuery("#showrelatedsharename").val(datas.name);
 	}
 }
+
+//外来人员选择框
+var outHumVal= "";
+function selectOutHum(){
+	var otherMembersObj = jQuery("#othermembers");
+	var otherMembersSpanObj = jQuery("#othermembersspan");
+	var url = "/weavernorth/meeting/OutHumBrowser.jsp?1=1&outHumId="+otherMembersObj.val();
+	openDialog("外来人员",url);
+}
+function openDialog(title,url) {
+	var dlg=new window.top.Dialog();//定义Dialog对象
+    dlg.currentWindow = window;
+	dlg.Model=true;
+	dlg.Width=550;
+	dlg.Height=450;
+	dlg.URL=url;
+	dlg.Title=title;
+	dlg.callbackfun = "testFunciton"; 
+	dlg.show();
+}
+
+//外来人员选择后回调方法，赋值相关人员信息到input
+function outHrmSelectCallBackFun(reOutHumVal){
+	var otherMembersObj = jQuery("#othermembers");
+	var otherMembersSpanObj = jQuery("#othermembersspan");
+	debugger;
+	if(reOutHumVal){
+		debugger;
+		var html = "";
+		var outHumId= "";
+		for(var key in reOutHumVal){
+			if(key){
+	            //alert(key);
+	            var name = reOutHumVal[key];
+	            if(name){
+	            	if(html){
+	            		html += ",<a onclick=\"javaScript:showOutHrmInfoById("+key+");\" href=\"#\">"+name+"</a>";
+	            		outHumId += ","+key;
+	            	}else{	            		
+	            		html = "<a onclick=\"javaScript:showOutHrmInfoById("+key+");\" href=\"#\">"+name+"</a>";
+	            		outHumId = key;
+	            	}
+	            }      
+			}  
+        }
+		
+		if(html){
+			otherMembersObj.val(outHumId);
+			otherMembersSpanObj.html(html);			
+		}else{
+			otherMembersObj.val("");
+			otherMembersSpanObj.html("");
+		}
+	}else{
+		otherMembersObj.val("");
+		otherMembersSpanObj.html("");
+	}
+	//统计参会人数
+	countAttend();
+}
+
+function ow(owurl){
+	var iWidth=600;                          //弹出窗口的宽度;
+    var iHeight=500;                        //弹出窗口的高度;
+    var iTop = (window.screen.availHeight-30-iHeight)/2;       //获得窗口的垂直位置;
+    var iLeft = (window.screen.availWidth-10-iWidth)/2;
+    var tmp=window.open("about:blank","","fullscreen=1");
+    //tmp.moveTo(iLeft,iTop);
+    //tmp.resizeTo(iWidth,iHeight);
+    //tmp.focus();
+    tmp.location=owurl;
+} 
+//添加外来人员
+function addOtherHum(){
+
+	//ow("/formmode/search/CustomSearchBySimple.jsp?customid=3801");
+	//ow("/formmode/view/AddFormMode.jsp?type=0&modeId=3180&formId=-1494&billid=");
+	var outHumShowPageId = "<%=outHumShowPageId%>";
+	if(outHumShowPageId && outHumShowPageId != ""){
+		ow("/formmode/search/CustomSearchBySimple.jsp?customid="+outHumShowPageId);
+	}else{
+		//获取id失败
+	}
+	
+}
+//===================================
+//页面加载执行
+
+//创建人员获取
+function getCallerHtml(){
+	var hrmIds = $('#caller').val();	
+	var html = $('#callerspan').html();
+	//if(html.indexOf("</span>")==-1){
+		//判断是否获取选择人员id
+		if(hrmIds){
+			//人员新选择，执行jsp替换相关内容			
+			jQuery.ajax({ 
+				url: "/weavernorth/meeting/AjaxGetHumHtml.jsp?hrmIds="+hrmIds, 
+				context: document.body, 
+				async: "false",
+				dataType: "json",
+				success: function(data){
+					debugger;				
+					if(data && data.result == "true"){
+						reHtml = data.msg;
+						$('#callerspan').html(reHtml);
+						getHrmmembersHtml();		
+					}							
+				}
+			});
+		}
+	//}
+}
+
+//记录人人员获取
+function getRecorderHtml(){
+	var hrmIds = $('#recorder').val();	
+	var html = $('#recorderspan').html();
+	//if(html.indexOf("</span>")==-1){
+		//判断是否获取选择人员id
+		if(hrmIds){
+			//人员新选择，执行jsp替换相关内容			
+			jQuery.ajax({ 
+				url: "/weavernorth/meeting/AjaxGetHumHtml.jsp?hrmIds="+hrmIds, 
+				context: document.body, 
+				async: "false",
+				dataType: "json",
+				success: function(data){
+					debugger;				
+					if(data && data.result == "true"){
+						reHtml = data.msg;
+						$('#recorderspan').html(reHtml);
+						getHrmmembersHtml();		
+					}							
+				}
+			});
+		}
+	//}
+}
+//会议通知抄送人
+function getCcmeetingnoticeHtml(){
+	var hrmIds = $('#ccmeetingnotice').val();	
+	var html = $('#ccmeetingnoticespan').html();
+	//if(html.indexOf("</span>")==-1){
+		//判断是否获取选择人员id
+		if(hrmIds){
+			//人员新选择，执行jsp替换相关内容			
+			jQuery.ajax({ 
+				url: "/weavernorth/meeting/AjaxGetHumHtml.jsp?hrmIds="+hrmIds, 
+				context: document.body, 
+				async: "false",
+				dataType: "json",
+				success: function(data){
+					debugger;				
+					if(data && data.result == "true"){
+						reHtml = data.msg;
+						$('#ccmeetingnoticespan').html(reHtml);						
+					}							
+				}
+			});
+		}
+	//}
+}
+//会议通知抄送人
+function getCcmeetingminutesHtml(){
+	var hrmIds = $('#ccmeetingminutes').val();	
+	var html = $('#ccmeetingminutesspan').html();
+	//if(html.indexOf("</span>")==-1){
+		//判断是否获取选择人员id
+		if(hrmIds){
+			//人员新选择，执行jsp替换相关内容			
+			jQuery.ajax({ 
+				url: "/weavernorth/meeting/AjaxGetHumHtml.jsp?hrmIds="+hrmIds, 
+				context: document.body, 
+				async: "false",
+				dataType: "json",
+				success: function(data){
+					debugger;				
+					if(data && data.result == "true"){
+						reHtml = data.msg;
+						$('#ccmeetingminutesspan').html(reHtml);						
+					}							
+				}
+			});
+		}
+	//}
+}
+function getHrmmembersHtmlInit(){
+	var html = $('#hrmmembersspan').html();
+	if(html.indexOf("</span>")==-1){
+		var hrmIds = $('#hrmmembers').val();
+		//判断是否获取选择人员id
+		if(hrmIds){
+			//人员新选择，执行jsp替换相关内容			
+			jQuery.ajax({ 
+				url: "/weavernorth/meeting/AjaxGetHumHtml.jsp?hrmIds="+hrmIds, 
+				context: document.body, 
+				async: "false",
+				dataType: "json",
+				success: function(data){
+					debugger;				
+					if(data && data.result == "true"){
+						reHtml = data.msg;
+						$('#hrmmembersspan').html(reHtml);						
+					}							
+				}
+			});
+		}
+	}
+}
+
+//会议参会人
+function getHrmmembersHtml(){
+	//alert("hrmIds");
+	//参会人ids
+	var hrmIds = $('#hrmmembers').val();
+	//主持人id
+	var caller = $('#caller').val(); 
+	//记录人id
+	var recorder = $('#recorder').val();
+	if(hrmIds){
+		hrmIds = ","+hrmIds;
+	}
+	if(caller){
+		hrmIds += ","+caller;
+	}
+	if(recorder){
+		hrmIds += ","+recorder;
+	}
+	
+	//alert("hrmIds");
+	var html = $('#hrmmembersspan').html();
+	//判断是否获取选择人员id
+	if(hrmIds){
+		//人员新选择，执行jsp替换相关内容			
+		jQuery.ajax({ 
+			url: "/weavernorth/meeting/AjaxGetHumHtml.jsp?hrmIds="+hrmIds, 
+			context: document.body, 
+			async: "true",
+			dataType: "json",
+			success: function(data){
+				debugger;				
+				if(data && data.result == "true"){
+					
+					var reHtml = data.msg;
+					$('#hrmmembersspan').html(reHtml);
+					var reHrmIds = data.reHrmIds;
+					//从新赋值参会人员id
+					$('#hrmmembers').val(reHrmIds);	
+					//统计人数和统计成本
+					countAttend();	
+				}							
+			}
+		});
+	}
+}
+
+//计算参会人数
+function countAttend()
+{
+	//判断参会人员和外来参会人员是否都为空
+	if($('#hrmmembers').val()=='' && $('#othermembers').val()=='' ){
+		if($('#totalmember').length>0){
+			$('#totalmember').val(0);
+		}
+	}else{
+		//参会人员
+		var hrmmember= 0;
+		//外来参会人员
+		var othermembers= 0;
+		if($('#hrmmembers').val()){
+			hrmmember = $('#hrmmembers').val().split(",").length;
+		}
+		if($('#othermembers').val()){
+			othermembers = $('#othermembers').val().split(",").length;
+		}
+		
+		
+		//计算参会人数
+		if($('#totalmember').length>0){
+			$('#totalmember').val(hrmmember+othermembers);
+		}
+		//统计成本
+		countCost();	
+		
+	}
+}
+//计算成本
+function countCost(){
+	//计算参会人成本   lq  2015-9-1
+	$.post("/weavernorth/meeting/AjaxCountCost.jsp?method=countcost",
+			{"hrmmembers":$('#hrmmembers').val(),"begindate":$("#begindate").val(),
+			 "begintime":$("#begintime").val(),"enddate":$("#enddate").val(),"endtime":$("#endtime").val()
+			},
+       	function(datas){
+			var d = datas.split("|");
+			$('#cost').val(d[0]);
+			$('#costSpan').html(d[0]);
+			$("#xiaoshi").val(d[1]);
+		}
+	);
+}
+//弹出外来人员信息框
+function showOutHrmInfoById(hrmId) {
+	//alert(hrmId);
+	if(hrmId){
+		var url = "/weavernorth/meeting/ShowOutHumInfo.jsp?1=1&outHrmId="+hrmId;	
+		//openDialog("外来人员信息",url);
+		var dlg=new window.top.Dialog();//定义Dialog对象
+	    dlg.currentWindow = window;
+		dlg.Model=true;
+		dlg.Width=450;
+		dlg.Height=100;
+		dlg.URL=url;
+		dlg.Title="外来人员信息";
+		dlg.show();
+	}
+	
+}
+
+//人员处理
+function showColse(id){
+	//debugger;	
+    jQuery("#"+id).css({
+        "visibility":"visible",
+        "opacity":1
+    });
+}
+function hideColse(id){
+	//debugger;	
+    jQuery("#"+id).css({
+        "visibility":"hidden"
+    });
+}
+//关闭
+function closeHrm(spanId,id){	
+	
+	debugger;
+	id = ","+id+",";
+	var ele = jQuery("#"+spanId).parent("span").attr("id");
+	
+	var targetinputobj = jQuery("#"+ele.replace("span",""));
+	
+	var ids = ","+targetinputobj.val()+",";
+	var fieldid = ele.replace("span","");
+	var newids = ids.replace(id,",");
+	
+	newids = newids.substring(1,newids.length-1);
+	if(newids==","){
+		newids="";
+	}
+	
+	targetinputobj.val(newids);
+	jQuery("#"+spanId).remove();
+	
+	//重新统计人数
+	countAttend();
+}
+
 //获取二维码
 function showQRCode(){
 	//判断当前选择的是内部会议室还是外部会议室
@@ -1640,74 +2209,6 @@ function showQRCode(){
 		
 	}else{
 		Dialog.alert("未获取会议室信息，请先选择（填写）会议室！");
-	}
-	
-}
-
-//会议通知抄送人
-function getCcmeetingnoticeHtml(){
-	var hrmIds = $('#ccmeetingnotice').val();	
-	var html = $('#ccmeetingnoticespan').html();
-	//if(html.indexOf("</span>")==-1){
-		//判断是否获取选择人员id
-		if(hrmIds){
-			//人员新选择，执行jsp替换相关内容			
-			jQuery.ajax({ 
-				url: "/weavernorth/meeting/AjaxGetHumHtml.jsp?hrmIds="+hrmIds, 
-				context: document.body, 
-				async: "false",
-				dataType: "json",
-				success: function(data){
-					debugger;				
-					if(data && data.result == "true"){
-						reHtml = data.msg;
-						$('#ccmeetingnoticespan').html(reHtml);						
-					}							
-				}
-			});
-		}
-	//}
-}
-
-//会议通知抄送人
-function getCcmeetingminutesHtml(){
-	var hrmIds = $('#ccmeetingminutes').val();	
-	var html = $('#ccmeetingminutesspan').html();
-	//if(html.indexOf("</span>")==-1){
-		//判断是否获取选择人员id
-		if(hrmIds){
-			//人员新选择，执行jsp替换相关内容			
-			jQuery.ajax({ 
-				url: "/weavernorth/meeting/AjaxGetHumHtml.jsp?hrmIds="+hrmIds, 
-				context: document.body, 
-				async: "false",
-				dataType: "json",
-				success: function(data){
-					debugger;				
-					if(data && data.result == "true"){
-						reHtml = data.msg;
-						$('#ccmeetingminutesspan').html(reHtml);						
-					}							
-				}
-			});
-		}
-	//}
-}
-
-
-function showOutHrmInfoById(hrmId) {
-	//alert(hrmId);
-	if(hrmId){
-		var url = "/weavernorth/meeting/ShowOutHumInfo.jsp?1=1&outHrmId="+hrmId;	
-		//openDialog("外来人员信息",url);
-		var dlg=new window.top.Dialog();//定义Dialog对象
-	    dlg.currentWindow = window;
-		dlg.Model=true;
-		dlg.Width=450;
-		dlg.Height=100;
-		dlg.URL=url;
-		dlg.Title="外来人员信息";
-		dlg.show();
 	}
 	
 }
