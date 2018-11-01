@@ -95,6 +95,8 @@
 				String sql = getSql(subcompanyid,user,selectday,"",2);
 				//System.out.println(sql);
 				rs.executeSql(sql);
+				new weaver.general.BaseBean().writeLog("getMeetingList"+sql);
+
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 				JSONArray ja = new JSONArray();
 				List<String> list=new ArrayList<String>();
@@ -792,7 +794,7 @@
 				if(currentDay<10){
 					selDate = currentMonth+"0"+currentDay;
 				}
-				rs.executeSql("select t1.*,t3.name as roomname from Meeting,MeetingRoom t3 "+
+				rs.executeSql("select t1.*,t3.name as roomname from Meeting t1,MeetingRoom t3 "+
 					"where  ','||t1.address||','  like '%,'||to_char(t3.id)||',%' and  ','||t1.address||','  like '%,"+addressid+",%'  and t1.beginDate <= '"+
 					selDate+"' and t1.endDate >= '"+selDate+"' and (t1.cancel <> 1 or t1.cancel is null) order by t1.beginDate,t1.begintime,t1.id");
 				JSONArray ja = new JSONArray();

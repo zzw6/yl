@@ -68,7 +68,7 @@ public class MeetingInterval{
 				weekdate = getFirstDayOfWeek(begindate);
 				for(int i=0; i<7; i++) {
 					String weekcount = String.valueOf(TimeUtil.dateWeekday(weekdate));
-	                if(otherinfo.indexOf(weekcount) >= 0) {
+	                if(otherinfo.indexOf(weekcount) >= 0) {meetingOperation
 	                	if(weekdate.compareTo(begindate)>=0&&weekdate.compareTo(enddate) <= 0){
 		        			begindatelist.add(weekdate);
 	                	}
