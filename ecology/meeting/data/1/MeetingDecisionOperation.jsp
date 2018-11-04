@@ -15,8 +15,6 @@
 <%@ page import="weaver.conn.RecordSet" %>
 <%@page import="net.sf.json.JSONArray"%>
 <%@ page import="weaver.email.MailSend" %>
-<%@ page import="weaver.mobile.plugin.ecology.service.PushNotificationService" %>
-
 <jsp:useBean id="TimeUtils" class="com.weavernorth.util.TimeUtils" scope="page" />
 
 <jsp:useBean id="RecordSet" class="weaver.conn.RecordSet" scope="page" />
@@ -81,7 +79,6 @@ String CurrentDate = (timestamp.toString()).substring(0,4) + "-" + (timestamp.to
 String CurrentTime = (timestamp.toString()).substring(11,13) + ":" + (timestamp.toString()).substring(14,16) + ":" +(timestamp.toString()).substring(17,19);
 
 String method = Util.null2String(fu.getParameter("method"));
-	String needuser = Util.null2String(fu.getParameter("needuser"));
 String meetingid=Util.null2String(fu.getParameter("meetingid"));
 String decision=Util.fromScreen(fu.getParameter("decision"),user.getLanguage());
 String shareuser = Util.null2String(fu.getParameter("shareuser"));
@@ -205,52 +202,14 @@ if(method.equals("submit"))
 	
 	String meetingtype=RecordSet.getString("meetingtype");
 	String t_enddate=RecordSet.getString("enddate");
-	BaseBean baseBean=new BaseBean();
+	
 	//添加会议决议共享人员 查看会议信息
 	if(!"".equals(shareuser)){
-		PushNotificationService service = new PushNotificationService();
-		Map<String, String> para = new HashMap();
-		String type = Util.null2String(baseBean.getPropValue("YiliMessage", "mtype"));
-		if ("".equals(type)) {
-			type = "30";
-		}
-		String yiliUrl = Util.null2String(baseBean.getPropValue("YiliMessage", "murl"));
-		String charset = Util.null2String(baseBean.getPropValue("YiliMessage", "mcharset"));
-
-		if("".equals(yiliUrl)){
-			yiliUrl="/mobile/plugin/5/mtdecision.jsp?id="+meetingid;
-		}
-		if("".equals(charset)){
-			charset="GBK";
-		}
-
-		para.put("module", "-2");
-		para.put("messagetypeid", type);
 		List<String> shareUserids = Util.TokenizerString(shareuser,",");
-		List<String> loginidlist = new ArrayList<String>();
-		for(int i=0;i<shareUserids.size();i++){
-			String userid=shareUserids.get(i);
-			if(userid!=null&&!"".equals(userid)){
-				RecordSet.execute("select loginid from HrmResource where id="+userid);
-				if(RecordSet.next()){
-					String loginid=RecordSet.getString("loginid");
-					if(!"".equals(loginid)){
-						loginidlist.add(loginid);
- 					}
-				}
-			}
-
-		}
-
-		service.push( org.apache.commons.lang3.StringUtils.join(loginidlist, ','),"会议纪要已修改", 1, para);
-
-
-
 		for(int index = 0; index < shareUserids.size(); index ++){
 			String setMeetingShareSql = "insert into Meeting_ShareDetail(meetingid,userid,usertype,sharelevel) values("+meetingid+","+shareUserids.get(index)+",1,102)";
 			RecordSet.executeSql(setMeetingShareSql);
 			//sysRemindWorkflow.setMeetingSysRemind(infoStr,Util.getIntValue(meetingid),Util.getIntValue(caller),shareuser,"您接收到 "+_name+" 的会议共享！");
-
 		}
 		
 		
@@ -388,9 +347,7 @@ if(method.equals("submit"))
 		String rCcmeetingminutes = Util.null2String(RecordSet.getString("ccmeetingminutes"));
 		String rCcmeetingnotice = Util.null2String(RecordSet.getString("ccmeetingnotice"));
 		meetingName = Util.null2String(RecordSet.getString("name"));
-
-
-
+		
 		//主持人
 		if(!"".equals(rCaller) && (wfaccepter+",").indexOf(","+rCaller+",") == -1){
 			wfaccepter += ","+rCaller;
@@ -500,7 +457,7 @@ if(method.equals("submit"))
 	}
 	 
 	
-	String tmpUserIds = TimeUtils.replaceRepStr(needuser);
+	String tmpUserIds = TimeUtils.replaceRepStr(wfaccepter);
 	
 	BaseBean.writeLog("===========================MeetingDecisionOperation.jsp(会议决议提醒人)===========================" + tmpUserIds);
 	
@@ -520,7 +477,7 @@ if(method.equals("submit"))
 	mailContent += "<a style=\"color:red\" target=\"_blank\" href=\"/weavernorth/meeting/MeetingInfo.jsp?id="+meetingid+"&_fromURL=1\">"+mailTitle+"</a><br>";	
 	MailSend localMailSend = new MailSend();
 	boolean bool = localMailSend.sendSysInternalMail("1", tmpUserIds, null, mailTitle, mailContent);
-	//BaseBean.writeLog("发送  会议决议提交 通知邮件是否成功："+bool);
+	BaseBean.writeLog("发送  会议决议提交 通知邮件是否成功："+bool);
 	BaseBean.writeLog("===========================MeetingDecisionOperation.jsp(会议决议抄送人提醒邮件发送) end===========================");
 	//邮件发送  2017-1-17 end
 	//会议决议提交  发送系统提醒流程  接收人员增加   by lq  2015-11-23 end

@@ -131,8 +131,7 @@ if(method.equals("edit"))//修改或者编辑页面直接提交  edit页面修�
 		//计算会议时长
 		weaver.conn.RecordSet rs2 = new weaver.conn.RecordSet();
 		long times2 = com.weaver.formmodel.util.DateHelper.getMinutesBetween(enddate+"/"+endtime+":00",begindate+"/"+begintime+":00");
-		String tempaddress=address.split(",")[0];
-		rs2.executeSql("select subcompanyid from MeetingRoom where id = '"+tempaddress+"'");
+		rs2.executeSql("select subcompanyid from MeetingRoom where id = '"+address+"'");
 		String meetingRoom_subcompanyid2 = "";
 		if(rs2.next()){
 			meetingRoom_subcompanyid2 = Util.null2String(rs2.getString("subcompanyid"));
@@ -203,7 +202,7 @@ if(method.equals("edit"))//修改或者编辑页面直接提交  edit页面修�
 			}
 		}
 	}
-	String description= "您有会议: "+meetingnamestr+"   会议时间:"+begindate+" "+begintime+"  会议地点:"+MeetingInterval.getMeetingRoomInfoname(""+address)+customizeAddress;
+	String description= "您有会议: "+meetingnamestr+"   会议时间:"+begindate+" "+begintime+"  会议地点:"+MeetingRoomComInfo.getMeetingRoomInfoname(""+address)+customizeAddress;
 	String updateSql1 =  "update Meeting set ";
 	updateSql1 += "begindate='" + begindate+"' ";
 	updateSql1 += ",begintime='" + begintime+"' ";
@@ -213,9 +212,7 @@ if(method.equals("edit"))//修改或者编辑页面直接提交  edit页面修�
 	updateSql1 += ",description='" + description+"' ";
 	updateSql1 += ",addressselect='" + addressselect+"' ";
 	//if(addressselect==0){
-
-
-		updateSql1 += ",','||address||',' like '%,"+address+",%'";
+		updateSql1 += ",address='"+address+"' ";
 	//}else{
 		updateSql1 += ",customizeAddress='" + customizeAddress+"' ";
 	//}
@@ -523,7 +520,7 @@ if(method.equals("edit"))//修改或者编辑页面直接提交  edit页面修�
 	String oldAddressHtml = "";
 	if(addressselect == 0){ //内部会议室
 		addressStr = address;
-		addressHtml = MeetingInterval.getMeetingRoomInfoname(""+address);
+		addressHtml = MeetingRoomComInfo.getMeetingRoomInfoname(""+address);
 	}else{
 		addressStr = customizeAddress;
 		addressHtml = customizeAddress;
@@ -531,7 +528,7 @@ if(method.equals("edit"))//修改或者编辑页面直接提交  edit页面修�
 	
 	if(oldaddressselect == 0){
 		oldAddressStr = oldaddress;
-		oldAddressHtml = MeetingInterval.getMeetingRoomInfoname(""+oldaddress);
+		oldAddressHtml = MeetingRoomComInfo.getMeetingRoomInfoname(""+oldaddress);
 	}else{
 		oldAddressStr = oldcustomizeAddress;
 		oldAddressHtml = oldcustomizeAddress;
@@ -898,7 +895,7 @@ private void  createWP(String meetingid,String ip) throws Exception{
 	    String createdate=Util.null2String(rs.getString("createdate"));
         String createtime=Util.null2String(rs.getString("createtime"));
         String description= Util.toMultiLangScreen("84535,2103")+": "+name+"   "+Util.toMultiLangScreen("81901")+":"+begindate+" "+begintime+//您有会议  会议时间
-	    " "+Util.toMultiLangScreen("2105")+":"+MeetingInterval.getMeetingRoomInfoname(""+address)+customizeAddress;
+	    " "+Util.toMultiLangScreen("2105")+":"+meetingRoomComInfo.getMeetingRoomInfoname(""+address)+customizeAddress;
 	  
 		//生成日程接收人和流程接收人的 接收者
 	    String SWFAccepter = "";
