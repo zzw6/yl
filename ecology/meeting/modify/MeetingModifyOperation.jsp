@@ -214,8 +214,7 @@ if(method.equals("edit"))//修改或者编辑页面直接提交  edit页面修�
 	updateSql1 += ",addressselect='" + addressselect+"' ";
 	//if(addressselect==0){
 
-
-		updateSql1 += ",','||address||',' like '%,"+address+",%'";
+ 		updateSql1 += ",address='"+address+"' ";
 	//}else{
 		updateSql1 += ",customizeAddress='" + customizeAddress+"' ";
 	//}

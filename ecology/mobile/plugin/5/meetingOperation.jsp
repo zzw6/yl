@@ -847,6 +847,7 @@
 					jo.put("endtime", endtime);
 					jo.put("meetingover", meetingover);
 					jo.put("create",rc.getLastname(creater+""));
+					jo.put("createid",creater+"");
 					ja.add(jo);
 				}
 				json.put("meetings",ja);

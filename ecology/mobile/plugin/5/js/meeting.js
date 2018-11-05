@@ -466,7 +466,7 @@ function loadAddressDetail(){
 								   '     <div class="weui-cell__bd">'+
 								   '       <p>'+m.name+'</p>'+
 								   '       <p class="mt-address">'+m.roomname+'</p>'+
-							       '<p>'+m.create+'</p>'+
+							       '<p onclick="openuser('+m.createid+')" >'+m.create+'</p>'+
 								   '     </div>'+
 							       ' 	<div class="weui-cell__ft '+classname+'">'+statusname+'</div>'+
 							       '</div>';
