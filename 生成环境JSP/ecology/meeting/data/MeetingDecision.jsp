@@ -93,10 +93,6 @@ if(userid.equals(contacter)&&!userid.equals(caller)){
 if(userPrm == 3 || userid.equals(caller) || userid.equals(approver) ){
     ismanager=true;
 }
-
-	String sql = " select name,caller,contacter,recorder,hrmmembers,ccmeetingnotice,ccmeetingminutes,shareuser from meeting where id = '"+meetingid+"'";
-
-
 //会议决议 权限判断 修改为 创建人和记录人可创建  lq  2015-10-22 start
 //caller 主持人 contacter 创建人
 
@@ -120,42 +116,6 @@ rs.executeSql(Sql);
 if(rs.next()) {
 	ismember=true;
 }
-
-
-	String sqlzz = " select name,caller,contacter,recorder,hrmmembers,ccmeetingnotice,ccmeetingminutes,shareuser from meeting where id = '"+meetingid+"'";
-
-	new weaver.general.BaseBean().writeLog("查询人员是否可以查看会议sql："+sqlzz);
-	String hrmIds="";
-	RecordSet.executeSql(sql);
-	//如果查询到数据说明可以查看会议
-
- 	if(RecordSet.next()){
-		hrmIds = ","+Util.null2String(RecordSet.getString("caller"))
-				+","+Util.null2String(RecordSet.getString("contacter"))
-				+","+Util.null2String(RecordSet.getString("recorder"))
-				+","+Util.null2String(RecordSet.getString("hrmmembers"))
-				+","+Util.null2String(RecordSet.getString("ccmeetingnotice"))
-				+","+Util.null2String(RecordSet.getString("ccmeetingminutes"))
-				+","+Util.null2String(RecordSet.getString("otherpersonnel"))
-				+","+Util.null2String(RecordSet.getString("tempotherpersonnel"))+",";
-
-	}
-
-	hrmIds=Util.TrimComma(hrmIds);
-	String hrmIdsNames = "";
- 	 Set<String> hrmidsList=new HashSet<String>(Util.TokenizerString(hrmIds,","));
-	hrmIds="";
-	for (String s : hrmidsList) {
-		hrmIdsNames+= meetingTransMethod.getMeetingResource(""+s) + ",";
-		hrmIds+=","+s;
-	}
-	if(!"".equals(hrmIds)){
-	    hrmIds=hrmIds.substring(1);
-	}
-
-	new weaver.general.BaseBean().writeLog("hrmIds："+hrmIds);
-
-	String url="/systeminfo/BrowserMain.jsp?url=/hrm/resource/MutiResourceBrowser.jsp?resourceids=";
 
 %>
 
@@ -224,7 +184,6 @@ RCMenuHeight += RCMenuHeightStep ;
 <INPUT type="hidden" name="f_weaver_belongto_userid" value="<%=userid %>">
 <wea:layout type="2col">
 	<wea:group context="<%=SystemEnv.getHtmlLabelName(154,user.getLanguage())%>" >
-
         <wea:item>
         <%=SystemEnv.getHtmlLabelName(2170,user.getLanguage())%>
         <div style="font-style:italic;color:red;">(输入内容请限制在500字，超过字数请以附件的形式上传)</div>
@@ -334,7 +293,6 @@ RCMenuHeight += RCMenuHeightStep ;
 					completeUrl="/data.jsp?type=NO" linkUrl="/proj/process/ViewTask.jsp?taskrecordid=#id#&id=#id#" 
 					browserSpanValue="<%=relatedprjnames%>"></brow:browser>
                 </wea:item>
-
             <%} %>
            <%if(meetingSetInfo.getTpcAttch() == 1) {%>
 				<wea:item><%=SystemEnv.getHtmlLabelName(22194,user.getLanguage())%></wea:item>
@@ -422,15 +380,6 @@ RCMenuHeight += RCMenuHeightStep ;
 					 <wea:item><font color="red"><%=SystemEnv.getHtmlLabelName(17616,user.getLanguage())+SystemEnv.getHtmlLabelName(92,user.getLanguage())+SystemEnv.getHtmlLabelName(15808,user.getLanguage())%>!</font></wea:item>
 					<%}%> 
 		   <%} %>
-
-	<wea:item attributes="{'display':'none'}" >
-		<brow:browser viewType="0"  name="needuser" browserValue="<%=hrmIds.trim()%>"
-					  browserOnClick="" browserUrl="<%=url%>"
-					  hasInput="true"  isSingle="false" hasBrowser = "true" isMustInput='1'  width="300px"
-					  completeUrl="/data.jsp" linkUrl="javascript:openhrm($id$)"
-					  browserSpanValue="<%=hrmIdsNames%>"></brow:browser>
-	</wea:item>
-
         </wea:group>
 		<wea:group context="<%=SystemEnv.getHtmlLabelName(2171,user.getLanguage())%>" >
 			<wea:item type="groupHead">
@@ -627,13 +576,8 @@ function dodeleteRow1()
 	}
 
 }
-var needClick=false;
+
 function doSave(savemethod){
-    if(savemethod===1&&!needClick){
-        needClick=true;
-        jQuery("#needuser_browserbtn").click();
-        return;
-    }
     if (savemethod==1) savemethod = "submit" ;
     if (savemethod==2) savemethod = "edit" ;
     var parastr = "<%=needcheck%>" ;

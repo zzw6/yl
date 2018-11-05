@@ -373,13 +373,7 @@ for(String groupid:groupList){
 			fieldVaule=address;
 			cfg.put("getBrowserUrlFn","CheckOnShowAddress"); 
 			cfg.put("width","60%");
-
-			if (HrmUserVarify.checkUserRight("MeetingRoomAdd:Add", user)) {
-			    //后续添加
-				extendHtml+="<div class=\"FieldDiv add_btn\" onclick=\"addAddress()\"  title=\""+SystemEnv.getHtmlLabelNames("611,780",user.getLanguage())+"\"></div>";
-			}
-
- 			extendHtml+="<div class=\"FieldDiv\" id=\"selectRoomdivb\" name=\"selectRoomdivb\" style=\"margin-left:10px;margin-top: 3px;float:left;\">"+
+			extendHtml="<div class=\"FieldDiv\" id=\"selectRoomdivb\" name=\"selectRoomdivb\" style=\"margin-left:10px;margin-top: 3px;float:left;\">"+
 							"<A href=\"javascript:showRoomsWithDate();\" style=\"color:blue;\">"+SystemEnv.getHtmlLabelName(2193,user.getLanguage())+"</A>"+
 						"</div>";
 						
@@ -1069,24 +1063,9 @@ $(document).ready(function(){
 				msg= msg.replace(/(^\s*)|(\s*$)/g, "");
 				if(msg != "NoData"){
 					var msgArr = msg.split("$");
-					var value=$('#address').val();
-					if(value!==''){
-                        var split = value.split(",");
-                        for (var x of split) {
-							if(x===msgArr[0])
-							{
-							    return;
-							}
-                        }
-
-                        $('#address').val(value+","+msgArr[0]);
-                   	}else{
-                        $('#address').val(msgArr[0]);
-					}
-                    var html=' <span class="e8_showNameClass"><a href="/meeting/Maint/MeetingRoom_list.jsp?id="'+msgArr[0]+' target="_new" ' +
-                        'title="'+msgArr[1]+'">'+msgArr[1]+'</a><span id='+msgArr[0]+' class="e8_delClass">x</span></span>';
-                    $('#addressspan').html($('#addressspan').html()+" "+html);
-
+					
+					$('#address').val(msgArr[0]);
+					$('#addressspan').html(msgArr[1]);
 					countCost();
 				}
 			}
@@ -1753,36 +1732,28 @@ function CheckOnShowAddress(){
 }
 //打开会议室选择框
 function onShowAddress(){
-	var url = "/systeminfo/BrowserMain.jsp?url=/meeting/Maint/MutilMeetingRoomBrowser.jsp";
-	showBrwDlg(url, "frommeeting=1&selectedids="+$('#address').val(), 500,480,"addressspan","address","addressChgCbk");
-	$("#src_box_middle").css("height","400px");
+	var url = "/systeminfo/BrowserMain.jsp?url=/meeting/Maint/MeetingRoomBrowser.jsp";
+	showBrwDlg(url, "", 500,570,"addressspan","address","addressChgCbk");
 }
 //会议室回写处理
 function addressChgCbk(datas){
-		if(datas){
-		if (datas!=""){
-             var ids = datas.id;
-             var names = datas.name;
-             arrid=ids.split(",");
-             arrname=names.split(",");
-             var html="";
-             for(var i=0;i<arrid.length;i++){
-               html += "<a href='/meeting/Maint/MeetingRoom_list.jsp?id="+arrid[i]+"' target='_new' >"+arrname[i]+"</A>";
-             }
-             html = html.substr(0,html.length-1);
-             $("#addressspan").html(html);
-			 weaver.address.value = ids;
-			 $("#customizeAddressspan").html("");
-		}else{
-			 $("#addressspan").html("<IMG src='/images/BacoError.gif' align=absMiddle>");
-			 weaver.address.value="";
-			 $("#customizeAddressspan").html("<IMG src='/images/BacoError.gif' align=absMiddle>");
+	if (datas != null) {
+		closeBrwDlg();
+		if (wuiUtil.getJsonValueByIndex(datas, 0) != "" && wuiUtil.getJsonValueByIndex(datas, 0) != "0") {
+
+			var resourceids = wuiUtil.getJsonValueByIndex(datas, 0);
+			var resourcename = wuiUtil.getJsonValueByIndex(datas, 1);
+			
+			jQuery("#addressspan").html(resourcename);
+			jQuery("#address").val(resourceids);
+		} else {
+ 			jQuery("#addressspan").html("");
+			jQuery("#address").val("");
 		}
-		
-		 _writeBackData("address",2,{id:jQuery("#address").val(),name:jQuery("#addressspan").html()},{
+		_writeBackData("address",2,{id:jQuery("#address").val(),name:"<a href='/meeting/Maint/MeetingRoom_list.jsp?id="+jQuery("#address").val()+"' target='_new' > "+jQuery("#addressspan").html()+"</a>"},{
 			hasInput:true,
 			replace:true,
-			//isSingle:true,
+			isSingle:true,
 			isedit:true
 		});
 	}

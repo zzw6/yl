@@ -27,22 +27,7 @@
 	
 	String id = Util.null2String(fu.getParameter("id"));//会议ID
 	String operation = Util.null2String(fu.getParameter("operation"));//会议ID
-	//on t1.address = t2.id
-	String sql="select t1.*,t2.name as roomname from Meeting t1,MeetingRoom t2  where ','||t1.address||','  like '%,'||to_char(t2.id)||',%' and t1.id = "+id;
-	RecordSet rs1=new RecordSet();
-	rs1.executeSql(sql);
-	String roomname ="";
-	while (rs1.next()){
-		roomname+=","+Util.null2String(rs1.getString("roomname"));
-	}
-
-	if(!"".equals(roomname)){
-	    roomname=roomname.substring(1);
-	}
-
-			// Util.null2String(rs.getString("roomname"));//会议室名称
-
-	rs.executeSql("select t1.*,t2.name as roomname from Meeting t1,MeetingRoom t2  where ','||t1.address||','  like '%,'||to_char(t2.id)||',%' and t1.id = "+id);
+	rs.executeSql("select t1.*,t2.name as roomname from Meeting t1 left join MeetingRoom t2 on t1.address = t2.id where t1.id = "+id);
 	if(rs.next()){
 		String hrmIds = ","+Util.null2String(rs.getString("caller"))
 				+","+Util.null2String(rs.getString("contacter"))
@@ -58,6 +43,7 @@
 			String creater = Util.null2String(rs.getString("contacter"));//联系人id 伊利把联系人当做创建人
 			//String creater = Util.null2String(rs.getString("creater"));//创建人id
 			String recorder = Util.null2String(rs.getString("recorder"));//会议记录人id
+			String roomname = Util.null2String(rs.getString("roomname"));//会议室名称
 			String customizeAddress = Util.null2String(rs.getString("customizeAddress"));//自定义会议室地点
 			if("".equals(roomname)){
 				roomname = customizeAddress;
@@ -77,7 +63,7 @@
 			String isdecision = Util.null2String(rs.getString("isdecision"));//会议决议
 			int meetingstatus = Util.getIntValue(rs.getString("meetingstatus"),0);
 			int isAppraise = Util.getIntValue(rs.getString("isAppraise"),2);//会议评估
-			String address = Util.null2String(rs.getString("address"));//会议室ID
+			int address = Util.getIntValue(rs.getString("address"),0);//会议室ID
 			int addressselect = Util.getIntValue(rs.getString("addressselect"),0);//0内部会议室 1其他会议室
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 			Date startDate = sdf.parse(begindate+" "+begintime);
