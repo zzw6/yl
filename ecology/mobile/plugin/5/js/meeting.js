@@ -401,6 +401,14 @@ function sureAddress(id,name){
 		$("#addressSpan").html(name);
 		$("#address").val(id);
 	}else{
+        var splitV = addressValue.split(",");
+
+        for (var i=0;i<splitV.length;i++) {
+			if(splitV[i]==id)
+				return;
+        }
+
+
 		$("#addressSpan").html($("#addressSpan").html()+","+name);
 		$("#address").val(addressValue+","+id);
 	}
