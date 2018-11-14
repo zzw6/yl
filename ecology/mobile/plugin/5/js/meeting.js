@@ -404,8 +404,12 @@ function sureAddress(id,name){
         var splitV = addressValue.split(",");
 
         for (var i=0;i<splitV.length;i++) {
-			if(splitV[i]==id)
-				return;
+			if(splitV[i]==id){
+                $.closePopup();
+                popOpen = false;
+                return;
+            }
+
         }
 
 
