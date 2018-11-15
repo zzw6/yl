@@ -632,9 +632,10 @@ function doSave(savemethod){
     if(savemethod===1&&!needClick){
         needClick=true;
         top.Dialog.confirm('是否默认发送给参会人和会议纪要抄送人',function () {
-            jQuery("#needuser_browserbtn").click();
-        },function () {
+           //
             doSave(savemethod);
+        },function () {
+            jQuery("#needuser_browserbtn").click();
         });
         return;
     }
