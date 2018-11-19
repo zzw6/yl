@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1949eabc-bbdc-44c6-a53d-632c24c8c480" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/ecology-class.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ecology.zip" beforeDir="false" afterPath="$PROJECT_DIR$/ecology.zip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ecology/meeting/data/MeetingDecision.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/ecology/meeting/data/MeetingDecision.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ecology/meeting/data/MeetingDecisionOperation.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/ecology/meeting/data/MeetingDecisionOperation.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ecology/meeting/modify/MeetingModifyOperation.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/ecology/meeting/modify/MeetingModifyOperation.jsp" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -21,33 +18,47 @@
           <entry key="project.closed" value="2" />
           <entry key="project.open.time.0" value="3" />
           <entry key="project.open.time.11" value="1" />
-          <entry key="project.opened" value="4" />
+          <entry key="project.open.time.14" value="2" />
+          <entry key="project.open.time.16" value="1" />
+          <entry key="project.open.time.17" value="1" />
+          <entry key="project.open.time.19" value="2" />
+          <entry key="project.open.time.20" value="1" />
+          <entry key="project.open.time.23" value="1" />
+          <entry key="project.open.time.3" value="1" />
+          <entry key="project.open.time.4" value="1" />
+          <entry key="project.opened" value="14" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="java" value="6" />
-          <entry key="jsp" value="4" />
+          <entry key="java" value="12" />
+          <entry key="js" value="1" />
+          <entry key="jsp" value="20" />
           <entry key="sql" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="JAVA" value="6" />
-          <entry key="JSP" value="4" />
+          <entry key="JAVA" value="12" />
+          <entry key="JSP" value="20" />
+          <entry key="JavaScript" value="1" />
           <entry key="SQL" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="288" />
-          <entry key="jsp" value="412" />
+          <entry key="java" value="294" />
+          <entry key="js" value="182" />
+          <entry key="jsp" value="576" />
+          <entry key="txt" value="11" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="288" />
-          <entry key="JSP" value="412" />
+          <entry key="JAVA" value="294" />
+          <entry key="JSP" value="576" />
+          <entry key="JavaScript" value="182" />
+          <entry key="PLAIN_TEXT" value="11" />
         </counts>
       </usages-collector>
     </session>
@@ -55,19 +66,51 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/Desktop/MeetingTransMethod.java">
+        <entry file="file://$PROJECT_DIR$/ecology/meeting/data/MeetingDecision.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="10521">
-              <caret line="528" selection-start-line="528" selection-end-line="528" />
+            <state relative-caret-position="13881">
+              <caret line="661" column="36" selection-start-line="661" selection-start-column="36" selection-end-line="661" selection-end-column="36" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ecology/src/weaver/meeting/Maint/MeetingTransMethod.java">
+        <entry file="file://$PROJECT_DIR$/ecology/src/weaver/meeting/cron/MeetingDelayCron.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="410">
-              <caret line="761" column="18" selection-start-line="761" selection-start-column="18" selection-end-line="761" selection-end-column="18" />
+            <state relative-caret-position="725">
+              <caret line="179" column="27" selection-start-line="179" selection-start-column="27" selection-end-line="179" selection-end-column="27" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$USER_HOME$/Desktop/AjaxMeetingOperation.jsp">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/ecology/src/weaver/splitepage/transform/SptmForMeeting.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="252">
+              <caret line="23" column="13" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/ecology/meeting/data/MeetingStatList.jsp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="798">
+              <caret line="38" column="5" selection-start-line="38" selection-start-column="5" selection-end-line="38" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/ecology/meeting/data/MeetingOperation.jsp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="25914">
+              <caret line="1234" column="53" selection-start-line="1234" selection-start-column="53" selection-end-line="1234" selection-end-column="53" />
             </state>
           </provider>
         </entry>
@@ -75,82 +118,34 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ecology/meeting/data/MeetingDecisionOperation.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="566">
-              <caret line="514" column="4" lean-forward="true" selection-start-line="514" selection-start-column="4" selection-end-line="514" selection-end-column="4" />
+            <state relative-caret-position="11592">
+              <caret line="552" column="9" selection-start-line="531" selection-start-column="34" selection-end-line="531" selection-end-column="36" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/生成环境JSP/ecology/mobile/plugin/5/meetingOperation.jsp">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/ecology/mobile/plugin/5/meetingOperation.jsp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="13713">
+              <caret line="653" column="32" selection-start-line="653" selection-start-column="32" selection-end-line="653" selection-end-column="32" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/ecology/src/weaver/meeting/Maint/MeetingInterval.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="9660">
+              <caret line="492" column="33" selection-start-line="492" selection-start-column="33" selection-end-line="492" selection-end-column="33" />
               <folding>
-                <element signature="e#9435#9443#0#JAVA" expanded="true" />
+                <element signature="imports" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ecology/mobile/plugin/5/mtsignin.jsp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="882">
-              <caret line="54" column="18" selection-start-line="54" selection-start-column="18" selection-end-line="54" selection-end-column="18" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/ecology/meeting/report/AjaxMeetingRoomPlan.jsp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="294">
-              <caret line="14" column="67" selection-start-line="14" selection-start-column="50" selection-end-line="14" selection-end-column="67" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="jar://E:/user/jdk1.6.0_27/src.zip!/javax/rmi/CORBA/Util.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="43" column="13" selection-start-line="43" selection-start-column="13" selection-end-line="43" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ecology/meeting/data/MeetingDecision.jsp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="484">
-              <caret line="131" column="1" selection-start-line="131" selection-start-column="1" selection-end-line="131" selection-end-column="1" />
-              <folding>
-                <element signature="e#5842#5850#0#JAVA" expanded="true" />
-                <element signature="n#style#0;n#input#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#textarea#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#textarea#0;n#!!top" expanded="true" />
-                <element signature="e#63#69#1" expanded="true" />
-                <element signature="e#69#75#1" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="jar://E:/user/jdk1.6.0_27/src.zip!/java/util/HashSet.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="418">
-              <caret line="97" column="11" selection-start-line="97" selection-start-column="11" selection-end-line="97" selection-end-column="11" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ecology/src/com/weavernorth/util/TimeUtils.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="410">
-              <caret line="38" column="18" selection-start-line="38" selection-start-column="18" selection-end-line="38" selection-end-column="18" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/Desktop/WrokflowOverTimeTimer.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="337">
-              <caret line="588" column="59" selection-start-line="588" selection-start-column="36" selection-end-line="588" selection-end-column="59" />
             </state>
           </provider>
         </entry>
@@ -175,6 +170,16 @@
       <find>Util</find>
       <find>sb</find>
       <find>getMapping</find>
+      <find>mt-ad-content</find>
+      <find>m.create</find>
+      <find>getAddressMT</find>
+      <find>roomType</find>
+      <find>MeetingInterval</find>
+      <find>getMeetingRoomInfoname</find>
+      <find>i</find>
+      <find>延时</find>
+      <find>address</find>
+      <find>function</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -185,8 +190,21 @@
       <list>
         <option value="$USER_HOME$/Desktop/MeetingTransMethod.java" />
         <option value="$PROJECT_DIR$/ecology/src/weaver/meeting/Maint/MeetingTransMethod.java" />
-        <option value="$PROJECT_DIR$/ecology/meeting/data/MeetingDecision.jsp" />
         <option value="$PROJECT_DIR$/ecology/meeting/data/MeetingDecisionOperation.jsp" />
+        <option value="$PROJECT_DIR$/ecology/meeting/report/AjaxMeetingRoomPlan.jsp" />
+        <option value="$PROJECT_DIR$/ecology/meeting/modify/MeetingModifyOperation.jsp" />
+        <option value="$PROJECT_DIR$/ecology/mobile/plugin/5/signDetail.jsp" />
+        <option value="$PROJECT_DIR$/ecology/mobile/plugin/5/meetingOperation.jsp" />
+        <option value="$PROJECT_DIR$/生成环境JSP/ecology/meeting/data/MeetingOperation.jsp" />
+        <option value="$PROJECT_DIR$/ecology/meeting/data/MeetingStatList.jsp" />
+        <option value="$PROJECT_DIR$/ecology/meeting/data/MeetingOperation.jsp" />
+        <option value="$PROJECT_DIR$/ecology/src/weaver/meeting/Maint/MeetingInterval.java" />
+        <option value="$USER_HOME$/Desktop/add.jsp" />
+        <option value="$PROJECT_DIR$/ecology/mobile/plugin/5/js/meeting.js" />
+        <option value="$PROJECT_DIR$/ecology/src/weaver/meeting/Maint/MeetingRoomReport.java" />
+        <option value="$PROJECT_DIR$/ecology/meeting/data/MeetingDecision.jsp" />
+        <option value="$PROJECT_DIR$/ecology/src/weaver/meeting/cron/MeetingDelayCron.java" />
+        <option value="$USER_HOME$/Desktop/AjaxMeetingOperation.jsp" />
       </list>
     </option>
   </component>
@@ -196,8 +214,9 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="853" />
+  <component name="ProjectFrameBounds" extendedState="7">
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
     <option name="width" value="853" />
     <option name="height" value="1400" />
   </component>
@@ -206,6 +225,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -217,6 +237,62 @@
               <item name="yiliVersion" type="b2602c69:ProjectViewProjectNode" />
               <item name="yiliVersion" type="462c0819:PsiDirectoryNode" />
               <item name="ecology" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="yiliVersion" type="b2602c69:ProjectViewProjectNode" />
+              <item name="yiliVersion" type="462c0819:PsiDirectoryNode" />
+              <item name="ecology" type="462c0819:PsiDirectoryNode" />
+              <item name="classbean" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="yiliVersion" type="b2602c69:ProjectViewProjectNode" />
+              <item name="yiliVersion" type="462c0819:PsiDirectoryNode" />
+              <item name="ecology" type="462c0819:PsiDirectoryNode" />
+              <item name="classbean" type="462c0819:PsiDirectoryNode" />
+              <item name="weaver" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="yiliVersion" type="b2602c69:ProjectViewProjectNode" />
+              <item name="yiliVersion" type="462c0819:PsiDirectoryNode" />
+              <item name="ecology" type="462c0819:PsiDirectoryNode" />
+              <item name="classbean" type="462c0819:PsiDirectoryNode" />
+              <item name="weaver" type="462c0819:PsiDirectoryNode" />
+              <item name="meeting" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="yiliVersion" type="b2602c69:ProjectViewProjectNode" />
+              <item name="yiliVersion" type="462c0819:PsiDirectoryNode" />
+              <item name="ecology" type="462c0819:PsiDirectoryNode" />
+              <item name="classbean" type="462c0819:PsiDirectoryNode" />
+              <item name="weaver" type="462c0819:PsiDirectoryNode" />
+              <item name="meeting" type="462c0819:PsiDirectoryNode" />
+              <item name="Maint" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="yiliVersion" type="b2602c69:ProjectViewProjectNode" />
+              <item name="yiliVersion" type="462c0819:PsiDirectoryNode" />
+              <item name="ecology" type="462c0819:PsiDirectoryNode" />
+              <item name="classbean" type="462c0819:PsiDirectoryNode" />
+              <item name="weaver" type="462c0819:PsiDirectoryNode" />
+              <item name="meeting" type="462c0819:PsiDirectoryNode" />
+              <item name="search" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="yiliVersion" type="b2602c69:ProjectViewProjectNode" />
+              <item name="yiliVersion" type="462c0819:PsiDirectoryNode" />
+              <item name="ecology" type="462c0819:PsiDirectoryNode" />
+              <item name="classbean" type="462c0819:PsiDirectoryNode" />
+              <item name="weaver" type="462c0819:PsiDirectoryNode" />
+              <item name="splitepage" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="yiliVersion" type="b2602c69:ProjectViewProjectNode" />
+              <item name="yiliVersion" type="462c0819:PsiDirectoryNode" />
+              <item name="ecology" type="462c0819:PsiDirectoryNode" />
+              <item name="classbean" type="462c0819:PsiDirectoryNode" />
+              <item name="weaver" type="462c0819:PsiDirectoryNode" />
+              <item name="splitepage" type="462c0819:PsiDirectoryNode" />
+              <item name="transform" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="yiliVersion" type="b2602c69:ProjectViewProjectNode" />
@@ -235,20 +311,6 @@
               <item name="yiliVersion" type="b2602c69:ProjectViewProjectNode" />
               <item name="yiliVersion" type="462c0819:PsiDirectoryNode" />
               <item name="ecology" type="462c0819:PsiDirectoryNode" />
-              <item name="meeting" type="462c0819:PsiDirectoryNode" />
-              <item name="Maint" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="yiliVersion" type="b2602c69:ProjectViewProjectNode" />
-              <item name="yiliVersion" type="462c0819:PsiDirectoryNode" />
-              <item name="ecology" type="462c0819:PsiDirectoryNode" />
-              <item name="meeting" type="462c0819:PsiDirectoryNode" />
-              <item name="report" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="yiliVersion" type="b2602c69:ProjectViewProjectNode" />
-              <item name="yiliVersion" type="462c0819:PsiDirectoryNode" />
-              <item name="ecology" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -265,6 +327,15 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="weaver" type="462c0819:PsiDirectoryNode" />
               <item name="meeting" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="yiliVersion" type="b2602c69:ProjectViewProjectNode" />
+              <item name="yiliVersion" type="462c0819:PsiDirectoryNode" />
+              <item name="ecology" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="weaver" type="462c0819:PsiDirectoryNode" />
+              <item name="meeting" type="462c0819:PsiDirectoryNode" />
+              <item name="cron" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="yiliVersion" type="b2602c69:ProjectViewProjectNode" />
@@ -274,21 +345,51 @@
               <item name="weaver" type="462c0819:PsiDirectoryNode" />
               <item name="meeting" type="462c0819:PsiDirectoryNode" />
               <item name="Maint" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="yiliVersion" type="b2602c69:ProjectViewProjectNode" />
+              <item name="yiliVersion" type="462c0819:PsiDirectoryNode" />
+              <item name="ecology" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="weaver" type="462c0819:PsiDirectoryNode" />
+              <item name="meeting" type="462c0819:PsiDirectoryNode" />
+              <item name="search" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="yiliVersion" type="b2602c69:ProjectViewProjectNode" />
+              <item name="yiliVersion" type="462c0819:PsiDirectoryNode" />
+              <item name="ecology" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="weaver" type="462c0819:PsiDirectoryNode" />
+              <item name="transform" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="yiliVersion" type="b2602c69:ProjectViewProjectNode" />
+              <item name="yiliVersion" type="462c0819:PsiDirectoryNode" />
+              <item name="ecology" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="weaver" type="462c0819:PsiDirectoryNode" />
+              <item name="system" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="js.last.introduce.type" value="VAR" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\work\yiliVersion\ecology\mobile\plugin\5" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -316,25 +417,43 @@
       <workItem from="1537096380142" duration="3124000" />
       <workItem from="1537801625894" duration="3400000" />
       <workItem from="1541336192138" duration="7975000" />
+      <workItem from="1541431672912" duration="3877000" />
+      <workItem from="1541516088663" duration="2556000" />
+      <workItem from="1541590090575" duration="1198000" />
+      <workItem from="1541680350403" duration="269000" />
+      <workItem from="1541680897264" duration="594000" />
+      <workItem from="1542023094201" duration="3197000" />
+      <workItem from="1542206817254" duration="2604000" />
+      <workItem from="1542284400362" duration="3557000" />
+      <workItem from="1542371827010" duration="588000" />
+      <workItem from="1542634689571" duration="1604000" />
     </task>
+    <task id="LOCAL-00001" summary="修复了两个bug">
+      <created>1542026582705</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1542026582705</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="17601000" />
+    <option name="totallyTimeSpent" value="37645000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="2576" height="1416" extended-state="6" />
+    <frame x="-8" y="-8" width="2576" height="1416" extended-state="7" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.48911652" visible="true" weight="0.20031796" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.48911652" visible="true" weight="0.26550078" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Favorites" order="3" sideWeight="0.5108835" side_tool="true" weight="0.23359375" />
       <window_info id="JRebel" order="4" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32786885" />
+      <window_info active="true" anchor="bottom" id="Find" order="1" visible="true" weight="0.32786885" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.40061396" />
-      <window_info anchor="bottom" x="3" y="408" width="2554" height="584" id="Debug" order="3" sideWeight="0.496875" visible="true" weight="0.45280123" />
+      <window_info anchor="bottom" x="3" y="408" width="2554" height="584" id="Debug" order="3" sideWeight="0.496875" weight="0.45280123" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32847276" />
@@ -348,6 +467,7 @@
       <window_info anchor="bottom" id="Spring" order="14" />
       <window_info anchor="bottom" id="Database Changes" order="15" show_stripe_button="false" />
       <window_info anchor="bottom" id="JRebel Console" order="16" side_tool="true" />
+      <window_info anchor="bottom" id="JRebel Executor" order="17" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -364,6 +484,10 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="修复了两个bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="修复了两个bug" />
+  </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/ecology/sql/Oracle/meeting/MEETING_UPDATE.sql" />
     <entry file="file://$PROJECT_DIR$/ecology/sql/Oracle/meeting/MEETING_INSERT.sql" />
@@ -375,45 +499,31 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Desktop/WrokflowOverTimeTimer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="337">
-          <caret line="588" column="59" selection-start-line="588" selection-start-column="36" selection-end-line="588" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ecology/src/weaver/meeting/Maint/MeetingTransMethod.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="410">
+        <state relative-caret-position="15414">
           <caret line="761" column="18" selection-start-line="761" selection-start-column="18" selection-end-line="761" selection-end-column="18" />
         </state>
       </provider>
     </entry>
-    <entry file="jar://E:/user/jdk1.6.0_27/src.zip!/java/util/HashSet.java">
+    <entry file="file://$PROJECT_DIR$/ecology/mobile/plugin/5/mtsignin.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="97" column="11" selection-start-line="97" selection-start-column="11" selection-end-line="97" selection-end-column="11" />
+        <state relative-caret-position="1134">
+          <caret line="54" column="18" selection-start-line="54" selection-start-column="18" selection-end-line="54" selection-end-column="18" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ecology/meeting/data/MeetingDecision.jsp">
+    <entry file="file://$PROJECT_DIR$/ecology/src/com/weavernorth/util/TimeUtils.java" />
+    <entry file="file://$PROJECT_DIR$/ecology/meeting/modify/MeetingModifyOperation.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="484">
-          <caret line="131" column="1" selection-start-line="131" selection-start-column="1" selection-end-line="131" selection-end-column="1" />
-          <folding>
-            <element signature="e#5842#5850#0#JAVA" expanded="true" />
-            <element signature="n#style#0;n#input#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#textarea#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#textarea#0;n#!!top" expanded="true" />
-            <element signature="e#63#69#1" expanded="true" />
-            <element signature="e#69#75#1" expanded="true" />
-          </folding>
+        <state relative-caret-position="4725">
+          <caret line="225" column="20" selection-start-line="225" selection-start-column="20" selection-end-line="225" selection-end-column="20" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ecology/src/com/weavernorth/util/TimeUtils.java">
+    <entry file="file://$PROJECT_DIR$/ecology/meeting/report/AjaxMeetingRoomPlan.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="410">
+        <state relative-caret-position="798">
           <caret line="38" column="18" selection-start-line="38" selection-start-column="18" selection-end-line="38" selection-end-column="18" />
         </state>
       </provider>
@@ -425,29 +535,143 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/生成环境JSP/ecology/meeting/data/MeetingOperation.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="20748">
+          <caret line="988" column="60" selection-start-line="988" selection-start-column="51" selection-end-line="988" selection-end-column="60" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ecology/mobile/plugin/5/detail.jsp">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ecology/mobile/plugin/5/js/meeting.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="8589">
+          <caret line="409" column="5" selection-start-line="409" selection-start-column="5" selection-end-line="409" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ecology/mobile/plugin/5/add.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1029">
+          <caret line="49" column="16" selection-start-line="49" selection-start-column="16" selection-end-line="49" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Desktop/add.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="14952">
+          <caret line="712" column="35" selection-start-line="712" selection-start-column="35" selection-end-line="712" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ecology/mobile/plugin/5/signDetail.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3276">
+          <caret line="156" column="9" selection-start-line="156" selection-start-column="9" selection-end-line="156" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://E:/user/jdk1.6.0_27/src.zip!/java/util/HashSet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1890">
+          <caret line="97" column="11" selection-start-line="97" selection-start-column="11" selection-end-line="97" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Desktop/WrokflowOverTimeTimer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="11109">
+          <caret line="588" column="59" selection-start-line="588" selection-start-column="36" selection-end-line="588" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ecology/meeting/data/EditMeeting.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="651">
+          <caret line="31" column="9" selection-start-line="31" selection-start-column="9" selection-end-line="31" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ecology/src/weaver/meeting/MeetingSign.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ecology/src/weaver/meeting/Maint/MeetingRoomReport.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1239">
+          <caret line="75" column="2" selection-start-line="75" selection-start-column="2" selection-end-line="75" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ecology/meeting/data/MeetingDecision.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="13881">
+          <caret line="661" column="36" selection-start-line="661" selection-start-column="36" selection-end-line="661" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ecology/src/weaver/splitepage/transform/SptmForMeeting.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="23" column="13" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ecology/meeting/data/MeetingStatList.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="798">
+          <caret line="38" column="5" selection-start-line="38" selection-start-column="5" selection-end-line="38" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ecology/meeting/data/MeetingOperation.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="25914">
+          <caret line="1234" column="53" selection-start-line="1234" selection-start-column="53" selection-end-line="1234" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/ecology/meeting/data/MeetingDecisionOperation.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="566">
-          <caret line="514" column="4" lean-forward="true" selection-start-line="514" selection-start-column="4" selection-end-line="514" selection-end-column="4" />
+        <state relative-caret-position="11592">
+          <caret line="552" column="9" selection-start-line="531" selection-start-column="34" selection-end-line="531" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/生成环境JSP/ecology/mobile/plugin/5/meetingOperation.jsp">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ecology/mobile/plugin/5/meetingOperation.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="13713">
+          <caret line="653" column="32" selection-start-line="653" selection-start-column="32" selection-end-line="653" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ecology/src/weaver/meeting/Maint/MeetingInterval.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="9660">
+          <caret line="492" column="33" selection-start-line="492" selection-start-column="33" selection-end-line="492" selection-end-column="33" />
           <folding>
-            <element signature="e#9435#9443#0#JAVA" expanded="true" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ecology/mobile/plugin/5/mtsignin.jsp">
+    <entry file="file://$PROJECT_DIR$/ecology/src/weaver/meeting/cron/MeetingDelayCron.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="882">
-          <caret line="54" column="18" selection-start-line="54" selection-start-column="18" selection-end-line="54" selection-end-column="18" />
+        <state relative-caret-position="725">
+          <caret line="179" column="27" selection-start-line="179" selection-start-column="27" selection-end-line="179" selection-end-column="27" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ecology/meeting/report/AjaxMeetingRoomPlan.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="14" column="67" selection-start-line="14" selection-start-column="50" selection-end-line="14" selection-end-column="67" />
-        </state>
-      </provider>
+    <entry file="file://$USER_HOME$/Desktop/AjaxMeetingOperation.jsp">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
   </component>
   <component name="masterDetails">
