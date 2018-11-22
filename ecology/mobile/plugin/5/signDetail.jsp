@@ -73,6 +73,22 @@
 			signtime = Util.null2String(rs.getString("signintime"));
 			remark = Util.null2String(rs.getString("remark"));
 		}
+
+		String [] ids=Util.null2String(fu.getParameter("ids")).split(",");
+
+		if(ids.length>1){
+			for (int i = 1; i < ids.length; i++) {
+				String sql1 = getSql(user, currentDate, ids[i]);
+				rs.executeSql(sql1);
+				if(rs.next()){
+					  roomname += ","+Util.null2String(rs.getString("roomname"));//会议室名称
+					  customizeAddress = rs.getString("customizeAddress");//自定义会议室地点
+					if("".equals(roomname)){
+						roomname += ","+customizeAddress;
+					}
+				}
+			}
+		}
 	%>
 <body>
 	<div id="container">

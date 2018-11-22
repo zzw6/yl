@@ -55,6 +55,13 @@
 			rs.executeSql(sb.toString());
 			//System.out.println(sb.toString());
 			int count = rs.getCounts();
+			if(count>1){
+				String idz=addressId.split(",")[0];
+				String url="/mobile/plugin/5/signDetail.jsp?id="+idz+"&ids="+addressId+"&"+param;
+				response.sendRedirect(url);
+				if(true)
+					return;
+			}
 			if(count==0){
 		%>
 		<div style="background:#f0f0f0;overflow:hidden;">
